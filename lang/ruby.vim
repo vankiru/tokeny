@@ -1,29 +1,43 @@
 let s:Ruby = g:Language.New()
 let g:Ruby = s:Ruby
 
-function! s:Ruby.RegisterAtoms()
-  runtime lang/ruby/atoms/*.vim
-
-  call g:Ruby.atoms.RegisterBaseName()
-  call g:Ruby.atoms.RegisterVariableName()
-  call g:Ruby.atoms.RegisterInstanceVariableName()
-  call g:Ruby.atoms.RegisterClassVariableName()
-  call g:Ruby.atoms.RegisterGlobalName()
-  call g:Ruby.atoms.RegisterMethodName()
-  call g:Ruby.atoms.RegisterSnakeName()
-  call g:Ruby.atoms.RegisterConstName()
-  call g:Ruby.atoms.RegisterClassName()
-
-  call g:Ruby.atoms.RegisterArt()
-  call g:Ruby.atoms.RegisterArts()
-  call g:Ruby.atoms.RegisterBarbs()
+"
+function! s:Ruby.LoadAtoms()
+    runtime lang/ruby/atoms/arguments.vim
+    runtime lang/ruby/atoms/blocks.vim
+    runtime lang/ruby/atoms/names.vim
 endfunction
 
+"
+function! s:Ruby.LoadTokens()
+    runtime lang/ruby/tokens/arts.vim
+endfunction
+
+"
 function! s:Ruby.RegisterTokens()
-  runtime lang/ruby/tokens/*.vim
 endfunction
 
+"
+function! s:Ruby.RegisterAtoms()
+    call s:Ruby.atoms.RegisterVariableName()
+    call s:Ruby.atoms.RegisterInstanceVariableName()
+    call s:Ruby.atoms.RegisterClassVariableName()
+    call s:Ruby.atoms.RegisterGlobalName()
+    call s:Ruby.atoms.RegisterMethodName()
+    call s:Ruby.atoms.RegisterSnakeName()
+    call s:Ruby.atoms.RegisterConstName()
+    call s:Ruby.atoms.RegisterClassName()
+
+    call s:Ruby.atoms.RegisterArt()
+    call s:Ruby.atoms.RegisterArts()
+    call s:Ruby.atoms.RegisterBarbs()
+endfunction
+
+"
 function! s:Ruby.Initialize()
+    call s:Ruby.LoadAtoms()
+    call s:Ruby.LoadTokens()
+
     call self.RegisterAtoms()
     call self.RegisterTokens()
 endfunction

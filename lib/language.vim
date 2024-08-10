@@ -12,11 +12,11 @@ function! s:Language.New()
 endfunction
 
 "
-function! s:Language.RegisterAtom(name, context, regex)
-    let atoms[name] = g:Atom.new(name, context, regex)
+function! s:Language.RegisterAtom(name, params)
+    let self.atoms[a:name] = g:Atom.New(self, a:name, a:params)
 endfunction
 
 "
-function! s:Language.RegisterToken(name, context, regex)
-    let tokens[name] = g:Token.new(name, context, regex)
+function! s:Language.RegisterToken(name, params)
+    let self.tokens[a:name] = g:Token.New(self, a:name, a:params)
 endfunction

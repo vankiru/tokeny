@@ -1,26 +1,29 @@
 " ClASS: Token
+" language
+" name
 " context = {
 "   name
 "   body
 "   test
+"   search
+"   type
 " }
-" search_regex
-" name_regex
-" body_regex
-" test_regex
-" type
+" NameRegex
+" BodyRegex
+" TestRegex
+" SearchRegex
 "============================================================
 
 let s:Token = {}
 let g:Token = s:Token
 
 "
-function! s:Token.New(name, context, regex)
+function! s:Token.New(language, name, context)
     let token = copy(self)
 
-    let token.name = a:name
-    let token.context = a:context
-    let token.regex = token.BuildRegex(a:regex)
+    let atom.name = a:name
+    let atom.context = a:context
+    let atom.language = a:language
     
     return token
 endfunction
@@ -33,13 +36,5 @@ endfunction
 
 "
 function! s:Token.SearchRegex()
-    let regex = reduce(regexs, { str, value -> str . "\|" .  value }, "")
-    return "\%(" . regex . "\)"
-endfunction
-
-#
-function! s:Token.SearchRegex(regexs)
-    let regex = reduce(regexs, { str, value -> str . "\|" .  value }, "")
-    return "\%(" . regex . "\)"
 endfunction
 
