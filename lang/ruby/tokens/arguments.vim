@@ -1,5 +1,6 @@
-let s:Ruby = g:Ruby
 let s:tokens = g:Ruby.tokens
+let s:named = g:Ruby.atoms.named
+let s:noname = g:Ruby.atoms.noname
 
 " type = "\%(*\|**\|&\)\="
 " name = "\<{base_name}\>"
@@ -9,34 +10,53 @@ let s:tokens = g:Ruby.tokens
 " "{type}{name}\%({default}\|{keyward}\)\={suffix}"
 " "\%(*\|**\|&\|\.\.\.\)"
 function! s:tokens.RegisterArt()
-    let l:type = '"\%(\*\|\*\*\|&\)\="'
-    let default = '"%w(\s*=\s*" . body'
-    let keyward = '"\|:\s*" . body . "\=\)\=" '
-    let suffix = '"\%(,\s*\|\%()\||\)\@=\)"'
+    let l:type = '''\%(\*\|\*\*\|&\)\='''
+    let default = '''%w(\s*=\s*'' . body'
+    let keyward = '''\|:\s*'' . body . ''\=\)\='''
+    let suffix = '\%(,\s*\|\%()\||\)\@=\)'
 
     let search = [
-        \l:type . " . name . " . default . keyward . suffix,
-        \"\%(\*\|\*\*\|&\|\.\.\.\)"
+        \l:type . ' . name . ' . default . keyward . suffix,
+        \'\%(\*\|\*\*\|&\|\.\.\.\)'
     \]
 
-    let params = #{
-        \name: "atoms.variable_name",
-        \body: "",
+    let regex = #{
+        \name: 'atoms.snake_name',
+        \body: '',
         \search: g:BuildRegex(search)
     \}
 
-    call s:Ruby.RegisterToken("art", params)
+    call s:Ruby.Register("art", regex)
 endfunction
 
 "
-" "\%({method_name}\|->\s*\){atom_args}"
-function! s:tokens.RegisterArts()
-    let params = #{
-        \name: "atoms.variable_name",
-        \search: '"\%(" . atoms.method_name . "\|->\s*\)" . atoms.arts"'
-    \}
-
-    call s:Ruby.RegisterToken("arts", params)
+" ",\s*\n\="
+function! s:tokens.RegisterComma()
+    call s:Ruby.Register("comma", #{search: ',\s*\n\='})
 endfunction
 
-""{\s*{atom_barbs}"
+"
+" "\%({method_name}\|->\s*\)({id}"
+function! s:tokens.RegisterArts()
+    let regex = #{
+        \search: '\%(' . s:noname.method_name . '\|->\s*\)\@<=(' . s:named.snake_text'
+    \}
+
+    let commands = #{
+        \change: s:commands.NormalMode("vi(d"),
+        \chunk: s:commands.NormalMode("va(d")
+    \}
+
+    call s:Ruby.Register("arts", regex, commands)
+endfunction
+
+"
+" "{\s*{barbs}"
+function! s:tokens.RegisterArts()
+    let regex = #{
+        \body: named.snake_text,
+        \search: '''\%({\s*\)\@<=|'' . body . ''|'''
+    \}
+
+    call s:Ruby.Register("arts", regex)
+endfunction
