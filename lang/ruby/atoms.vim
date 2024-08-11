@@ -1,29 +1,44 @@
 let s:Ruby = g:Ruby
 let s:atoms = s:Ruby.atoms
 
-function! s:Ruby.RegisterAtoms
-    let s:atoms = #{
-        \a = #{
-            \snake_name: '\<\h\w*\>',
-            \snake_text: '\h\w*.\{-}',
-            \method_name: '\<\h\w*\>[!?]\=',
-            \class_name: '\%(::\)\=\<\u\w*\>\%(::\<\u\w*\>\)*',
-            \const_name:  '\<\u\(\u\|\d\|_\)*\>',
-            \arts: '(.\{-})',
-            \barbs: '|.\{-}|',
-            \block: '',
-            \text: '.\{-}'
-        \},
-        \named: #{
-            \snake_name: '''\<'' . id . ''\w*\>''',
-            \snake_text: 'id . ''\w*.\{-}''',
-            \method_name: '''\<'' . id . ''\w*\>[!?]\=''',
-            \class_name: '''\%(::\)\=\<'' . id . ''\w*\>\%(::\<\u\w*\>\)*''',
-            \const_name: '''\<'' . id . ''\(\u\|\d\|_\)*\>''',
-            \arts: '''('' . id . ''.\{-})''',
-            \barbs: '''|'' . id . ''.\{-}|''',
-            \block: '',
-            \text: 'id . ''.\{-}'''
-        \}
+function! s:atoms.RegisterNoname()
+    let snake_name = '\<\h\w*\>'
+    let class_name = '\%(::\)\=\<\u\w*\>\%(::\<\u\w*\>\)*'
+    let const_name = '\<\u\(\u\|\d\|_\)*\>'
+    let path = '\<\w\+\>'
+
+    let s:atoms.noname = #{
+        \snake_name: snake_name,
+        \snake_text: '\h\w*.\{-}',
+        \method_name: snake_name.'[!?]\=',
+        \class_name: class_name,
+        \const_name:  const_name,
+        \name: '\%('.snake_name.'\|'.const_name.'\|'.class_name.'\)',
+        \arts: '\%((.\{-})\|\s\+.*\)',
+        \barbs: '|.\{-}|',
+        \text: '.\{-}',
+        \expresion: '',
+        \path: '\/\='.path.'\%(\/\'.path.'\)*\%(\.'.path.'\)\='
+    \}
+endfunction
+
+function! s:atoms.RegisterNamed()
+    let snake_name = "\<".id."\w*\>"
+    let class_name = "\%(::\)\=\<".id ."\w*\>\%(::\<\u\w*\>\)*"
+    let const_name = "\<".id."\(\u\|\d\|_\)*\>"
+    let path = '\<\w\+\>'
+
+    let s:atoms.named: #{
+        \snake_name: snake_name,
+        \snake_text: id."\w*.\{-}",
+        \method_name: snake_name."[!?]\=",
+        \class_name: class_name,
+        \const_name: const_name,
+        \name: "\%(".snake_name."\|".const_name."\|".class_name."\)",
+        \arts: "\%((".id.".\{-})"."\|"."\s\+".id.".*\)",
+        \barbs: "|".id.".\{-}|",
+        \text: id.".\{-}",
+        \expresion: '',
+        \path: "\/\=\<".id."\w\+\>\%(\/".path."\)*\%(\.".path."\)\="
     \}
 endfunction

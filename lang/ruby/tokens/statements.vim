@@ -1,69 +1,63 @@
-" "require": {
-"     "search_regex": 'require "{id}.*"'
-" },
+" "require '{id}.*'"
 function! s:tokens.RegisterRequire()
     let regex = #{
-        \search: ''
+        \body: named.path
+        \search: "\<require\>\s\+[\"'']". body."[\"'']"
     \}
 
     call s:Ruby.Register("require", regex)
 endfunction
 
 "
-" "unbind": {
-"     "search_regex": "undef {id}"
-" },
-function! s:tokens.RegisterUnbind()
+" "undef {id}"
+function! s:tokens.RegisterUndef()
     let regex = #{
-        \search: ''
+        \body: named.method_name,
+        \search: "\<undef\>\s\+".body
     \}
 
-    call s:Ruby.Register("unbind", regex)
+    call s:Ruby.Register("undef", regex)
 endfunction
 
 "
-" "defined": {
-"     "search_regex": "defined?({id})
-" },
+" "defined?({id})"
 function! s:tokens.RegisterDefined()
     let regex = #{
-        \search: ''
+        \body: named.name,
+        \search: '\<defined?\>'.'\%(\s\+'.body.'\|('.body.')\)'
     \}
 
     call s:Ruby.Register("defined", regex)
 endfunction
 
 "
-" "art read": {
-"     "search_regex": "attr_reader "
-" },
+" "attr_reader {:id}.*"
 function! s:tokens.RegisterAttrReader()
     let regex = #{
-        \search: ''
+        \body: named.arts
+        \search: "\<attr_reader\>".body
     \}
 
     call s:Ruby.Register("attr_reader", regex)
 endfunction
 
 "
-" "art write": {
-"     "search_regex": "attr_writer "
-" },
+" "attr_writer {id}.*"
 function! s:tokens.RegisterAttrWriter()
     let regex = #{
-        \search: ''
+        \body: named.arts
+        \search: "\<attr_writer\>".body
     \}
 
     call s:Ruby.Register("attr_writer", regex)
 endfunction
 
 "
-" "art access": {
-"     "search_regex": "attr_accessor "
-" },
+" "attr_accessor {id}.*"
 function! s:tokens.RegisterAttrAccessor()
     let regex = #{
-        \search: ''
+        \body: named.arts
+        \search: "\<attr_accessor\>".body
     \}
 
     call s:Ruby.Register("attr_acessor", regex)

@@ -1,430 +1,203 @@
-" "set to": {
-"     "search_regex": " = "
-" },
+" " = "
 function! s:tokens.RegisterSetTo()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("set_to", regex)
+    call s:Ruby.Register("set_to", #{search: '\s*\%([<=]\)\@<!=\%([=>]\)\@!\s*'})
 endfunction
 
 "
-" "plus": {
-"     "search_regex": " + "
-" },
+" " + "
 function! s:tokens.RegisterPlus()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("plus", regex)
+    call s:Ruby.Register("plus", #{search: '\s*+\%(=\)\@!\s*'})
 endfunction
 
 "
-" "minus": {
-"     "search_regex": " - "
-" },
+" " - "
 function! s:tokens.RegisterMinus()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("minus", regex)
+    call s:Ruby.Register("minus", #{search: '\s*-\%([=>]\)\@!\s*'})
 endfunction
 
 "
-" "multi": {
-"     "search_regex": " \* "
-" },
+" " \* "
 function! s:tokens.RegisterMulti()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("multi", regex)
+    call s:Ruby.Register("multi", #{search: '\%(\w\|[)}\]?!]\)\@<=\s\*\s*\%(\w\)\@='})
 endfunction
 
 "
-" "divide": {
-"     "search_regex": " \/ "
-" },
+" " \/ "
 function! s:tokens.RegisterDivide()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("divide", regex)
+    call s:Ruby.Register("divide", #{search: '\s*\/\s*'})
 endfunction
 
 "
-" "modulus": {
-"     "search_regex": " % "
-" },
+" " % "
 function! s:tokens.RegisterModulus()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("modulus", regex)
+    call s:Ruby.Register("modulus", #{search: '\s*%\%(=\|[wWiIqsr]\W\)\@!\s*'})
 endfunction
 
 "
-" "power": {
-"     "search_regex": "\*\*"
-" },
+" "\*\*"
 function! s:tokens.RegisterPower()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("power", regex)
+    call s:Ruby.Register("power", #{search: '\%(\w\|[)}\]?!]\)\@<=\s\*\*\s*\%(\w\)\@='})
 endfunction
 
 "
-" "plus equal": {
-"     "search_regex": " += "
-" },
+" " += "
 function! s:tokens.RegisterPlusEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("plus_equal", regex)
+    call s:Ruby.Register("plus_equal", #{search: '\s*+=\s*'})
 endfunction
 
 "
-" "minus equal": {
-"     "search_regex": " -= "
-" },
+" " -= "
 function! s:tokens.RegisterMinusEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("minus_equal", regex)
+    call s:Ruby.Register("minus_equal", #{search: '\s*-=\s*'})
 endfunction
 
 "
-" "multi equal": {
-"     "search_regex": " \*= "
-" },
+" " \*= "
 function! s:tokens.RegisterMultiEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("multi_equal", regex)
+    call s:Ruby.Register("multi_equal", #{search: '\s*\*=\s*'})
 endfunction
 
 "
-" "divide equal": {
-"     "search_regex": " \/= "
-" },
+" " \/= "
 function! s:tokens.RegisterDivideEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("divide_equal", regex)
+    call s:Ruby.Register("divide_equal", #{search: '\s*\/=\s*'})
 endfunction
 
 "
-" "mod equal": {
-"     "search_regex": " %= "
-" },
+" " %= "
 function! s:tokens.RegisterModEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("mod_equal", regex)
+    call s:Ruby.Register("mod_equal", #{search: '\s*%=\s*'})
 endfunction
 
 "
-" "power equal": {
-"     "search_regex": " \*\*= "
-" },
+" " \*\*= "
 function! s:tokens.RegisterPowerEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("power_equal", regex)
+    call s:Ruby.Register("power_equal", #{search: '\s*\*\*=\s*'})
 endfunction
 
 "
-" "equal": {
-"     "search_regex": " == "
-" },
+" " == "
 function! s:tokens.RegisterEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("equal", regex)
+    call s:Ruby.Register("equal", #{search: '\s*\%([=]\)\@<!==\%([=]\)\@!\s*'})
 endfunction
 
 "
-" "not equal": {
-"     "search_regex": " != "
-" },
+" " != "
 function! s:tokens.RegisterNotEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("not_equal", regex)
+    call s:Ruby.Register("not_equal", #{search: '\s*!=\s*'})
 endfunction
 
 "
-" "great": {
-"     "search_regex": " > "
-" },
+" " > "
 function! s:tokens.RegisterGreat()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("great", regex)
+    call s:Ruby.Register("great", #{search: '\s*\%([=->]\)\@<!>\%(>\)\@!\s*'})
 endfunction
 
 "
-" "less": {
-"     "search_regex": " < "
-" },
+" " < "
 function! s:tokens.RegisterLess()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("less", regex)
+    call s:Ruby.Register("less", #{search: '\s*\%(<\)\@<!<\%([<=]\)\@!\s*'})
 endfunction
 
 "
-" "great equal": {
-"     "search_regex": " >= "
-" },
+" " >= "
 function! s:tokens.RegisterGreatEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("great_equal", regex)
+    call s:Ruby.Register("great_equal", #{search: '\s*>=\s*'})
 endfunction
 
 "
-" "less equal": {
-"     "search_regex": " <= "
-" },
+" " <= "
 function! s:tokens.RegisterLessEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("less_equal", regex)
+    call s:Ruby.Register("less_equal", #{search: '\s*<=\%(>\)\@!\s*'})
 endfunction
 
 "
-" "compare": {
-"     "search_regex": " <=> "
-" },
+" " <=> "
 function! s:tokens.RegisterCompare()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("compare", regex)
+    call s:Ruby.Register("compare", #{search: '\s*<=>\s*'})
 endfunction
 
 "
-" "test equal": {
-"     "search_regex": " === "
-" },
+" " === "
 function! s:tokens.RegisterTestEqual()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("test_equal", regex)
+    call s:Ruby.Register("test_equal", #{search: '\s*===\s*'})
 endfunction
 
 "
-" "add | also": {
-"     "search_regex": " && "
-" },
+" " &&\|and "
 function! s:tokens.RegisterAnd()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("and", regex)
+    call s:Ruby.Register("and", #{search: '\%(\s*&&\s*\|\s\+\<and\>\s\+\)'})
 endfunction
 
 "
-" "or | either": {
-"     "search_regex": " || "
-" },
+" " ||\|or "
 function! s:tokens.RegisterOr()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("or", regex)
+    call s:Ruby.Register("or", #{search: '\%(\s*||\s*\|\s\+\<or\>\s\+\)'})
 endfunction
 
 "
-" "not": {
-"     "search_regex": " !"
-" },
+" " !\|not "
 function! s:tokens.RegisterNot()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("not", regex)
+    call s:Ruby.Register("not", #{search: '\%(^\|\s\+\)\%(!\|not\s\+\)'})
 endfunction
 
 "
-" "text add | also": {
-"     "search_regex": " and "
-" },
-function! s:tokens.RegisterTextAnd()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("text_and", regex)
-endfunction
-
-"
-" "text or | either": {
-"     "search_regex": " or "
-" },
-function! s:tokens.RegisterTextOr()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("text_or", regex)
-endfunction
-
-"
-" "text not": {
-"     "search_regex": " not "
-" },
-function! s:tokens.RegisterTextNot()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("text_not", regex)
-endfunction
-
-"
-" "index": {
-"     "search_regex": "\w\+\zs\[.*\]"
-" },
+" "\w\+\zs\[.*\]"
 function! s:tokens.RegisterIndex()
-    let regex = #{
-        \search: ''
+    let regex = #{search: '\%(\w\|[\])}!?]\)\@<=['}
+
+    let commands = #{
+        \change: "",
+        \chunk: ""
     \}
 
-    call s:Ruby.Register("index", regex)
+    call s:Ruby.Register("index", regex, commands)
 endfunction
 
 "
-" "inside": {
-"     "search_regex": " in "
-" },
+" " in "
 function! s:tokens.RegisterIn()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("in", regex)
+    call s:Ruby.Register("in", #{search: '\s\+\<in\>\s\+'})
 endfunction
 
 "
-" "match": {
-"     "search_regex": " => "
-" },
+" " => "
 function! s:tokens.RegisterMatch()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("match", regex)
+    call s:Ruby.Register("match", #{search: '\s*\%(<\)\@<!=>\s*'})
 endfunction
 
 "
-" "bit and": {
-"     "search_regex": " & "
-" },
+" " & "
 function! s:tokens.RegisterBitAnd()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("bit_and", regex)
+    call s:Ruby.Register("bit_and", #{search: '\s*\%(&\)\@<!&\%([&\.]\|\h\)\@!\s*'})
 endfunction
 
 "
-" "bit or": {
-"     "search_regex": " | "
-" },
+" " | "
 function! s:tokens.RegisterBitOr()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("bit_or", regex)
+    call s:Ruby.Register("bit_or", #{search: '\s*\%(|\)\@<!|\%(|\)\@!\s*'})
 endfunction
 
 "
-" "bit ex": {
-"     "search_regex": " ^ "
-" },
+" " ^ "
 function! s:tokens.RegisterBitEx()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("bit_ex", regex)
+    call s:Ruby.Register("bit_ex", #{search: '\s*^\s*'})
 endfunction
 
 "
-" "bit not": {
-"     "search_regex": " ~ "
-" },
+" " ~"
 function! s:tokens.RegisterBitNot()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("bit_not", regex)
+    call s:Ruby.Register("bit_not", #{search: '\s*\%(<<\)\@<!\~'})
 endfunction
 
 "
-" "bit left": {
-"     "search_regex": " << "
-" },
+" " << "
 function! s:tokens.RegisterShiftLeft()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("shift_left", regex)
+    call s:Ruby.Register("shift_left", #{search: '\s*\%(\<class\>\s\+\)\@<!<<\%([-~\U]\)\@!\s*'})
 endfunction
 
 "
-" "bit right": {
-"     "search_regex": " >> "
-" },
+" " >> "
 function! s:tokens.RegisterShiftRight()
-    let regex = #{
-        \search: ''
-    \}
-
-    call s:Ruby.Register("shift_right", regex)
+    call s:Ruby.Register("shift_right", #{search: '\s*>>\s*'})
 endfunction
