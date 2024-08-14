@@ -1,57 +1,56 @@
-" "module": {
-"     "search_regex": "module {id}",
-" },
+" "module {id}",
 function! s:tokens.RegisterModule()
     let regex = #{
-        \search: ''
+        \name: named.class_name,
+        \search: "\<module\>\s\+".name
     \}
 
-    call s:Ruby.Register("module", regex)
+    let commands = #{}
+
+    call s:Ruby.Register("module", regex, commands)
 endfunction
 
 "
-" "refine": {
-"     "search_regex": "refine {id}",
-" },
+" "refine {id}",
 function! s:tokens.RegisterRefine()
     let regex = #{
-        \search: ''
+        \name: named.class_name,
+        \search: "\<refine\>\s\+".name
     \}
 
-    call s:Ruby.Register("refine", regex)
+    let commands = #{}
+
+    call s:Ruby.Register("refine", regex, commands)
 endfunction
 
 "
-" "include": {
-"     "search_regex": "include {id}",
-" },
+" "include {id}",
 function! s:tokens.RegisterInclude()
     let regex = #{
-        \search: ''
+        \name: named.class_name,
+        \search: "\<include\>\s\+".name
     \}
 
     call s:Ruby.Register("include", regex)
 endfunction
 
 "
-" "extend": {
-"     "search_regex": "extend {id}",
-" },
+" "extend {id}",
 function! s:tokens.RegisterExtend()
     let regex = #{
-        \search: ''
+        \name: named.class_name,
+        \search: "\<extend\>\s\+".name
     \}
 
     call s:Ruby.Register("extend", regex)
 endfunction
 
 "
-" "using": {
-"     "search_regex": "using {id}",
-" }
+" "using {id}",
 function! s:tokens.RegisterUsing()
     let regex = #{
-        \search: ''
+        \name: named.class_name,
+        \search: "\<using\>\s\+".name
     \}
 
     call s:Ruby.Register("using", regex)

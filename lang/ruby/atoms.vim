@@ -17,8 +17,10 @@ function! s:atoms.RegisterNoname()
         \arts: '\%((.\{-})\|\s\+.*\)',
         \barbs: '|.\{-}|',
         \text: '.\{-}',
+        \string: '',
         \expresion: '',
-        \path: '\/\='.path.'\%(\/\'.path.'\)*\%(\.'.path.'\)\='
+        \path: '\/\='.path.'\%(\/\'.path.'\)*\%(\.'.path.'\)\=',
+        \modifier: '\%(\s\+\<\%(if\|unless\|while\|until\)\>.*\)\=',
     \}
 endfunction
 
@@ -31,14 +33,16 @@ function! s:atoms.RegisterNamed()
     let s:atoms.named: #{
         \snake_name: snake_name,
         \snake_text: id."\w*.\{-}",
-        \method_name: snake_name."[!?]\=",
+        \method_name: snake_name.'[!?]\=',
         \class_name: class_name,
         \const_name: const_name,
-        \name: "\%(".snake_name."\|".const_name."\|".class_name."\)",
+        \name: '\%('.snake_name.'\|'.const_name.'\|'.class_name.'\)',
         \arts: "\%((".id.".\{-})"."\|"."\s\+".id.".*\)",
         \barbs: "|".id.".\{-}|",
         \text: id.".\{-}",
+        \string: '',
         \expresion: '',
-        \path: "\/\=\<".id."\w\+\>\%(\/".path."\)*\%(\.".path."\)\="
+        \path: "\/\=\<".id."\w\+\>\%(\/".path."\)*\%(\.".path."\)\=",
+        \modifier: "\%(\s\+\<\%(if\|unless\|while\|until\)\>".id.".*\)\="
     \}
 endfunction

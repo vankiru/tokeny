@@ -1,76 +1,57 @@
 "
-" met: {
-"     "type": "line,block",
-"     "id_type": "snake_name",
-"     "search_regex": "\(un\)\@<!def {id}.*",
-"     "name_regex": "\(un\)\@<!def \zs{id}\w*[!?]\?\ze\((.*)\)\?",
-"     "body_regex": "\(un\)\@<!def {id}\w*[!?]\?\((.*)\)\?"
-" },
+" "def {id}.*{arts}"
 function! s:tokens.RegisterMethod()
     let regex = #{
-        \search: ''
+        \name: named.method_name,
+        \search: "\<def\>\s\+".id.noname.arts
     \}
 
-    call s:Ruby.Register("method", regex)
+    let commands = #{}
+
+    call s:Ruby.Register("method", regex, commands)
 endfunction
 
 "
-"call: {
-"   "type": "none",
-"   "id_type": "none",
-"   "search_regex": ".{id}",
-"},
-" "safe call": {
-"     "type": "none",
-"     "id_type": "none",
-"     "search_regex": "&.{id}",
-" },
+" ".{id}"
+" "&.{id}"
 function! s:tokens.RegisterCall()
     let regex = #{
-        \search: ''
+        \name: named.method_name,
+        \search: "\&\=\.".name.noname.arts.noname.block
     \}
 
     call s:Ruby.Register("call", regex)
 endfunction
 
 "
-" "return": {
-"     "type": "none",
-"     "id_type": "none",
-"     "search_regex": "return",
-" },
+" "return",
 function! s:tokens.RegisterReturn()
     let regex = #{
-        \search: ''
+        \body: named.expression,
+        \search: "\<return\>\s*\%(".body."\)\=".noname.modifier
     \}
 
     call s:Ruby.Register("return", regex)
 endfunction
 
 "
-" "parent": {
-"     "type": "none",
-"     "id_type": "none",
-"     "search_regex": "super",
-" },
+" "super",
 function! s:tokens.RegisterSuper()
     let regex = #{
-        \search: ''
+        \body: named.arts,
+        \search: "\<super\>\s*".body
     \}
 
     call s:Ruby.Register("super", regex)
 endfunction
 
 "
-" "yeild": {
-"     "type": "none",
-"     "id_type": "none",
-"     "search_regex": "yield",
-"     "search_regex": "yeild self",
-" },
+" "yield",
+" "yeild self",
 function! s:tokens.RegisterYield()
     let regex = #{
-        \search: ''
+        \body: named.expression,
+        \search: "\<yield\>\s*".body
     \}
 
     call s:Ruby.Register("super", regex)

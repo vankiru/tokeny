@@ -1,23 +1,26 @@
-" "raise": {
-"   "search_regex": "raise {id}.*",
-"   "search_regex": 'raise "{id}.*"',
-" }
+" "raise {id}.*",
+" 'raise "{id}.*"'
 function! s:tokens.RegisterRaise()
+    let class = named.class_name."\%(\.\<new\>\%(".noname.arts."\)\=\)\="
+    let string = "[\"'']".named.text."[\"'']"
+
     let regex = #{
-        \search: ''
+        \body: "\%(".class."\|".string."\)="
+        \search: "\<raise\>\s*".body
     \}
 
     call s:Ruby.Register("raise", regex)
 endfunction
 
 "
-" "rescue": {
-"     "search_regex": "rescue$"
-  "   "search_regex": "rescue {id}.*",
-" },
+" "rescue$"
+" "rescue {id}.*",
 function! s:tokens.RegisterRescue()
+    let class = named.class_name."\%(,\s*".noname.class_name."\)*"
+
     let regex = #{
-        \search: ''
+        \body: 
+        \search: "\<rescue\>\s*"
     \}
 
     call s:Ruby.Register("rescue", regex)
