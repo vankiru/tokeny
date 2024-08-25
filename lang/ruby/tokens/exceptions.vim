@@ -39,9 +39,7 @@ function! s:tokens.RegisterRescueAs()
 endfunction
 
 "
-" "begin": {
-"   "search_regex": "begin$"
-" },
+" "begin$"
 function! s:tokens.RegisterBegin()
     let regex = #{
         \search: ''
@@ -51,9 +49,7 @@ function! s:tokens.RegisterBegin()
 endfunction
 
 "
-" "ensure": {
-"   "search_regex": "ensure$"
-" },
+" "ensure$"
 function! s:tokens.RegisterEnsure()
     let regex = #{
         \search: ''
@@ -63,9 +59,7 @@ function! s:tokens.RegisterEnsure()
 endfunction
 
 "
-" "retry": {
-"   "search_regex": "retry$"
-" }
+" "retry$"
 function! s:tokens.RegisterRetry()
     let regex = #{
         \search: ''

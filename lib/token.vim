@@ -5,13 +5,13 @@
 "   name
 "   body
 "   test
-"   search
+"   token
 " }
-" commands = {
-"   rename
-"   change
+" select = {
+"   name
+"   body
 "   test
-"   chunk
+"   token
 " }
 " NameRegex
 " BodyRegex
@@ -25,15 +25,13 @@ let s:a = ["name", "body", "test"]
 
 "
 "function! s:Token.New(language, name, params)
-function! s:Token.New(language, name, regex, commands)
+function! s:Token.New(language, name, regex, select)
     let token = copy(self)
 
     let token.language = a:language
     let token.name = a:name
     let token.regex = a:regex
-    let token.commands = a:commands
-    "let token.regex = get(a:params, "regex", {})
-    "let token.commands = get(a:params, "commands", {})
+    let token.select = a:select
 
     return token
 endfunction

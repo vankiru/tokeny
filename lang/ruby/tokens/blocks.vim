@@ -1,20 +1,18 @@
 let s:Ruby = g:Ruby
-let s:tokens = g:Ruby.tokens
 
-let s:atoms = s:Ruby.atoms.noname
-
-function! s:tokens.RegisterBlock()
-    let multi = '\(\<\%(while\|until\|for\)/>\s\+.\{-}\)\@<!\s\+\<do\>\s*' . s:atoms.barbs . '\=$'
-    let inline = '\%(->\s*\|)\s*\|' . s:atoms.method_name . '\)\@<=\s*{'
+function! s:Ruby:tokens.RegisterBlock()
+    let multi = "\(\<\%(while\|until\|for\)/>\s\+.\{-}\)\@<!\s\+\<do\>\s*".base.barbs."\=$".body
+    let inline = "\%(->\s*\|)\s*\|".base.method_name."\)\@<=\s*{\s*".base.barbs."\=\s*".body
 
     let regex = #{
-        \search: '\%(' . multi . '\|' . inline . '\)'
+        \body: "[^}]"
+        \token: '\%('.multi.'\|'.inline.'\)'
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr("vwhdvi{d"),
-        \chunk: s:commands.ChunkBlockOr("vwhdva{d")
+    let select = #{
+        \body: ["vir", "vi{"]
+        \token: ["var", "va{oh"]
     \}
 
-    call s:Ruby.Register("block", regex)
+    call s:Ruby.Register("block", regex, select)
 endfunction

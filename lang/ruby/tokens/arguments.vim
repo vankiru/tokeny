@@ -1,6 +1,10 @@
 let s:tokens = g:Ruby.tokens
-let s:named = g:Ruby.atoms.named
-let s:noname = g:Ruby.atoms.noname
+
+"
+" ",\s*\n\="
+function! s:tokens.RegisterComma()
+    call g:Ruby.Register("comma", #{token: ',\s*\n\='}, #{token: "vwh"})
+endfunction
 
 " type = "\%(*\|**\|&\)\="
 " name = "\<{base_name}\>"
@@ -10,53 +14,57 @@ let s:noname = g:Ruby.atoms.noname
 " "{type}{name}\%({default}\|{keyward}\)\={suffix}"
 " "\%(*\|**\|&\|\.\.\.\)"
 function! s:tokens.RegisterArt()
-    let l:type = '''\%(\*\|\*\*\|&\)\='''
-    let default = '''%w(\s*=\s*'' . body'
-    let keyward = '''\|:\s*'' . body . ''\=\)\='''
-    let suffix = '\%(,\s*\|\%()\||\)\@=\)'
-
-    let search = [
-        \l:type . ' . name . ' . default . keyward . suffix,
-        \'\%(\*\|\*\*\|&\|\.\.\.\)'
-    \]
-
     let regex = #{
-        \name: 'atoms.snake_name',
-        \body: '',
-        \search: g:BuildRegex(search)
+        \name: id.snake_name,
+        \body: ".",
+        \token: s:BuildArtRegex()
     \}
 
-    call s:Ruby.Register("art", regex)
+    let select = #{
+        \name: "snake_name",
+        \body: "expression",
+        \token: "argument"
+        " \body: "via",
+        " \token: "vaa"
+    \}
+
+    call g:Ruby.Register("art", regex, select)
 endfunction
 
-"
-" ",\s*\n\="
-function! s:tokens.RegisterComma()
-    call s:Ruby.Register("comma", #{search: ',\s*\n\='})
+function! s:BuildArtRegex()
+    let l:type = "\%(\*\|\*\*\|&\)\="
+    let default = "%(\s*=\s*".body
+    let keyward = "\|:\s*".body."\=\)\="
+    let suffix = "\%(,\s*\|\%()\||\)\@=\)"
+
+    return g:BuildRegex(
+        \l:type.".name.".default.keyward.suffix,
+        \'\%(\*\|\*\*\|&\|\.\.\.\)'
+    )
 endfunction
 
 "
 " "\%({method_name}\|->\s*\)({id}"
 function! s:tokens.RegisterArts()
     let regex = #{
-        \search: '\%(' . s:noname.method_name . '\|->\s*\)\@<=(' . s:named.snake_text'
-    \}
+        \body: id.snake_text,
+        \token: "\%(".base.method_name."\|->\s*\)\@<=(".body
+    }
 
-    let commands = #{
-        \change: s:commands.NormalMode("vi(d"),
-        \chunk: s:commands.NormalMode("va(d")
-    \}
+    let select = #{body: "vi(", token: "va("}
 
-    call s:Ruby.Register("arts", regex, commands)
+    call g:Ruby.Register("arts", regex, select)
 endfunction
 
 "
 " "{\s*{barbs}"
 function! s:tokens.RegisterArts()
     let regex = #{
-        \body: named.snake_text,
-        \search: '''\%({\s*\)\@<=|'' . body . ''|'''
-    \}
+        \body: id.snake_text,
+        \token: "\%({\s*\)\@<=|".body."|"
+    }
 
-    call s:Ruby.Register("arts", regex)
+    let select = #{body: "lvf|h", token: "vf|"}
+
+    call g:Ruby.Register("arts", regex, select)
 endfunction

@@ -18,9 +18,7 @@ function! s:tokens.RegisterNil()
     call s:Ruby.Register("nil", #{search: '\<nil\>'})
 endfunction
 
-" "number": {
-"     "search_regex": "{id}\d*"
-" },
+" "{id}\d*"
 function! s:tokens.RegisterNumber()
     let regex = #{
         \search: ''

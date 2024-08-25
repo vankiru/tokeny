@@ -4,8 +4,8 @@ function! s:tokens.RegisterIf()
     let block = '''\%(^\s*\)\@<=\<if\>\s*'' . text'
 
     let regex = #{
-        \test: named.expression,
-        \body: noname.expression,
+        \test: id.expression,
+        \body: base.expression,
         \search: '\%(' . line . '\|' . block '\)'
     \}
 
@@ -20,7 +20,7 @@ endfunction
 "
 function! s:tokens.RegisterElse()
     let regex = #{
-        \body: '\s*' . named.expression,
+        \body: '\s*' . id.expression,
         \search: '\<else\>' . body
     \}
 
@@ -35,7 +35,7 @@ endfunction
 "
 function! s:tokens.RegisterElsif()
     let regex = #{
-        \test: named.expression,
+        \test: id.expression,
         \search: '\<elsif\>\s*' . test
     \}
 
@@ -53,8 +53,8 @@ function! s:tokens.RegisterUnless()
     let block = '''\%(^\s*\)\@<=\<unless\>\s*'' . text'
 
     let regex = #{
-        \test: named.expression,
-        \body: noname.expression,
+        \test: id.expression,
+        \body: base.expression,
         \search: '\%(' . line . '\|' . block '\)'
     \}
 
@@ -72,8 +72,8 @@ function! s:tokens.RegisterWhile()
     let block = '''\%(^\s*\)\@<=\<while\>\s*'' . text'
 
     let regex = #{
-        \test: named.expression,
-        \body: noname.expression,
+        \test: id.expression,
+        \body: base.expression,
         \search: '\%(' . line . '\|' . block '\)'
     \}
 
@@ -91,8 +91,8 @@ function! s:tokens.RegisterUntil()
     let block = '''\%(^\s*\)\@<=\<while\>\s*'' . text'
 
     let regex = #{
-        \test: named.expression,
-        \body: noname.expression,
+        \test: id.expression,
+        \body: base.expression,
         \search: '\%(' . line . '\|' . block '\)'
     \}
 
@@ -107,8 +107,8 @@ endfunction
 "
 function! s:tokens.RegisterTriple()
     let regex = #{
-        \test: named.expression,
-        \body: noname.expression,
+        \test: id.expression,
+        \body: base.expression,
         \search: test . '? .\{-} : .\{-}'
     \}
 
@@ -123,7 +123,7 @@ endfunction
 "
 function! s:tokens.RegisterCase()
     let regex = #{
-        \test: named.expression,
+        \test: id.expression,
         \search: '\<case\>\s*' . test
     \}
 
@@ -138,7 +138,7 @@ endfunction
 "
 function! s:tokens.RegisterWhen()
     let regex = #{
-        \test: named.expression,
+        \test: id.expression,
         \search: '\<when\>\s\+' . test . '\%(\s*\<then\>\s*.*\)\@='
     \}
 
@@ -153,7 +153,7 @@ endfunction
 "
 function! s:tokens.RegisterThen()
     let regex = #{
-        \body: named.expression,
+        \body: id.expression,
         \search: '\<then\>\s*' . body
     \}
 
@@ -163,7 +163,7 @@ endfunction
 "
 function! s:tokens.RegisterEndWhile()
     let regex = #{
-        \test: named.expression,
+        \test: id.expression,
         \search: '\<end\>\s\+\<while\>\s\+' . test
     \}
 
@@ -178,8 +178,8 @@ endfunction
 "
 function! s:tokens.RegisterBreak()
     let regex = #{
-        \test: named.expression,
-        \body: named.expression,
+        \test: id.expression,
+        \body: id.expression,
         \search: '\<break\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
     \}
 
@@ -189,8 +189,8 @@ endfunction
 "
 function! s:tokens.RegisterNext()
     let regex = #{
-        \test: named.expression,
-        \body: named.expression,
+        \test: id.expression,
+        \body: id.expression,
         \search: '\<next\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
     \}
 

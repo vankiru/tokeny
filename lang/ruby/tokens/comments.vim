@@ -1,49 +1,70 @@
 "
 function! s:tokens.RegisterComment()
-    let line = '''\s*#\s*'' . body'
-    let multi = '''=begin\n'' . body . ''[.|\n]\{-}=end'''
+    let line = "\s*#\s*".body
+    let multi = "=begin\n".body."[.|\n]\{-}=end"
 
     let regex = #{
-        \body: noname.text,
-        \search: '\%(' . line . '\|' . multi . '\)'
+        \body: id.text,
+        \token: '\%('.line.'\|'.multi.'\)'
     \}
 
-    call s:Ruby.Register("comment", regex)
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("comment", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterFrozenString()
-    let regex = #{search: '# frozen_string_literal: true'}
+    let regex = #{token: "# frozen_string_literal: true"}
+    let select = #{token: "line"}
 
-    call s:Ruby.Register("frozen_string", regex)
+    call s:Ruby.Register("frozen_string", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterMagicEncode()
     let regex = #{
-        \body: named.snake_name,
-        \search: '''# encoding: '' . body'
+        \body: id.snake_name,
+        \token: "# encoding: ".body
     \}
 
-    call s:Ruby.Register("magic_encode", regex)
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("magic_encode", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterMagicWarn()
     let regex = #{
-        \body: named.snake_name,
-        \search: '''# warn_indent: '' . body'
+        \body: id.snake_name,
+        \token: "# warn_indent: ".body
     \}
 
-    call s:Ruby.Register("magic_warn", regex)
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("magic_warn", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterMagicShare()
     let regex = #{
-        \body: named.snake_name,
-        \search: '''# shareable_constant_value: '' . body'
+        \body: id.snake_name,
+        \token: "# shareable_constant_value: ".body
     \}
 
-    call s:Ruby.Register("magic_share", regex)
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("magic_share", regex, select)
 endfunction

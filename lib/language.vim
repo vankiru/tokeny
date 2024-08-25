@@ -3,8 +3,30 @@
 " tokens
 "============================================================
 
-let s:Language = #{atoms: {}, tokens: {}, commands: {}}
+let s:Language = #{atoms: {}, tokens: {}}
 let g:Language = s:Language
+
+let s:Language.select = #{
+    \snake_name: "ve",
+    \method_name: "",
+    \class_name: "vic",
+    \const_name: "ve",
+    \line: "v$h"
+
+    \i: #{
+        \argument: "via",
+        \block: "vir",
+        \arts: "",
+        \barbs: "",
+    }
+
+    \a: #{
+        \argument: "via",
+        \block: "vir"
+        \arts: "",
+        \barbs: "",
+    }
+}
 
 function! s:Language.New()
     let language = copy(self)
@@ -12,6 +34,6 @@ function! s:Language.New()
 endfunction
 
 "
-function! s:Language.Register(name, regex, commands = {})
-    let self.tokens[a:name] = g:Token.New(self, a:name, a:params, a:commands)
+function! s:Language.Register(name, regex, select)
+    let self.tokens[a:name] = g:Token.New(self, a:name, a:regex, a:select)
 endfunction

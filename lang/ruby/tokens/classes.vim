@@ -1,95 +1,125 @@
 let s:Ruby = g:Ruby
   
-let s:commands = g:Ruby.commands
-let s:tokens = g:Ruby.tokens
-let s:atoms = s:Ruby.atoms.noname
-
 "
-function! s:tokens.RegisterClass()
+function! s:Ruby.tokens.RegisterClass()
     let regex = #{
-        \name: named.class_name,
-        \search: '''\<class\>\s\+'' . name'
+        \name: id.class_name,
+        \body: base.body,
+        \token: "\<class\>\s\+".name.body
     \}
 
-     let commands = #{
-         \change: s:commands.ChangeBlock(),
-         \chunk: s:commands.ChunkBlock()
+     let select = #{
+         \name: "class_name",
+         \body: "i.block",
+         \token: "a.block"
      \}
 
-    call s:Ruby.Register("class", regex, commands)
+    call s:Ruby.Register("class", regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterSuperClass()
+function! s:Ruby.tokens.RegisterSuperClass()
     let regex = #{
-        \name: named.class_name,
-        \search: '''\<class\>\s\+''' . noname.name . '''\s\*<\s*'' . name'
+        \name: id.class_name,
+        \token: "\%(\<class\>\s\+".base.name."\)@<=\s\*<\s*".name
     \}
 
-    call s:Ruby.Register("super_class", regex)
+    let select = #{
+        \name: "class_name",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("super_class", regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterSelfClass()
-    let regex = #{search: '\<class\>\s\*<<\s*\<self\>'}
-
-    let commands = #{
-        \change: s:commands.ChangeBlock(),
-        \chunk: s:commands.ChunkBlock()
-    \}
-
-    call s:Ruby.Register("self_class", regex, commands)
-endfunction
-
-"
-function! s:tokens.RegisterClassInit()
-    let regex = #{search: '\<def\>\s*\<initialize\>' . noname.arts}
-
-    let commands = #{
-        \change: s:commands.ChangeBlock(),
-        \chunk: s:commands.ChunkBlock()
-    \}
-
-    call s:Ruby.Register("class_init", regex, commands)
-endfunction
-
-"
-function! s:tokens.RegisterPrivate()
+function! s:Ruby.tokens.RegisterSelfClass()
     let regex = #{
-        \body: named.arts,
-        \search: '''\<private\>'' . body'
+        \body: base.body,
+        \token: "\<class\>\s\*<<\s*\<self\>".body
     \}
 
-    call s:Ruby.Register("private", regex)
+    let select = #{
+        \body: "i.block",
+        \token: "a.block"
+    \}
+
+    call s:Ruby.Register("self_class", regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterProtected()
+function! s:Ruby.tokens.RegisterClassInit()
     let regex = #{
-        \body: named.arts,
-        \search: '''\<protected\>'' . body'
+        \body: base.body,
+        \token: "\<def\>\s*\<initialize\>".base.arts.body
     \}
 
-    call s:Ruby.Register("protected", regex)
+    let select = #{
+        \body: "i.block",
+        \token: "a.block"
+    \}
+
+    call s:Ruby.Register("class_init", regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterPublic()
+function! s:Ruby.tokens.RegisterPrivate()
     let regex = #{
-        \body: named.arts,
-        \search: '''\<public\>'' . body'
+        \body: id.arts,
+        \token: "\<private\>".body
     \}
 
-    call s:Ruby.Register("public", regex)
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("private", regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterNew()
+function! s:Ruby.tokens.RegisterProtected()
     let regex = #{
-        \name: named.class_name,
-        \body: noname.arts,
-        \search: 'name . ''.new'' . body'
+        \body: id.arts,
+        \token: "\<protected\>".body
     \}
 
-    call s:Ruby.Register("new", regex)
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("protected", regex, select)
+endfunction
+
+"
+function! s:Ruby.tokens.RegisterPublic()
+    let regex = #{
+        \body: id.arts,
+        \token: "\<public\>".body
+    \}
+
+    let select = #{
+        \body: "line",
+        \token: "line"
+    \}
+
+    call s:Ruby.Register("public", regex, select)
+endfunction
+
+"
+function! s:Ruby.tokens.RegisterNew()
+    let regex = #{
+        \name: id.class_name,
+        \body: base.arts,
+        \token: name.".new".body
+    \}
+
+    let select = #{
+        \name: "class_name",
+        \body: "i.arts"
+        \token: ""
+    \}
+
+    call s:Ruby.Register("new", regex, select)
 endfunction
