@@ -3,34 +3,24 @@ let g:Ruby = s:Ruby
 
 "
 function! s:Ruby.LoadAtoms()
-    runtime lang/ruby/atoms/arguments.vim
-    runtime lang/ruby/atoms/blocks.vim
-    runtime lang/ruby/atoms/names.vim
+    runtime lang/ruby/atoms.vim
 endfunction
 
 "
 function! s:Ruby.LoadTokens()
-    runtime lang/ruby/tokens/arts.vim
+    runtime lang/ruby/tokens/arguments.vim
 endfunction
 
 "
 function! s:Ruby.RegisterTokens()
+    call s:Ruby.tokens.RegisterArts()
+    "call s:Ruby.tokens.RegisterBarbs()
 endfunction
 
 "
 function! s:Ruby.RegisterAtoms()
-    call s:Ruby.atoms.RegisterVariableName()
-    call s:Ruby.atoms.RegisterInstanceVariableName()
-    call s:Ruby.atoms.RegisterClassVariableName()
-    call s:Ruby.atoms.RegisterGlobalName()
-    call s:Ruby.atoms.RegisterMethodName()
-    call s:Ruby.atoms.RegisterSnakeName()
-    call s:Ruby.atoms.RegisterConstName()
-    call s:Ruby.atoms.RegisterClassName()
-
-    call s:Ruby.atoms.RegisterArt()
-    call s:Ruby.atoms.RegisterArts()
-    call s:Ruby.atoms.RegisterBarbs()
+    call s:Ruby.atoms.RegisterBase()
+    call s:Ruby.atoms.RegisterTags()
 endfunction
 
 "
@@ -38,6 +28,6 @@ function! s:Ruby.Initialize()
     call s:Ruby.LoadAtoms()
     call s:Ruby.LoadTokens()
 
-    call self.RegisterAtoms()
-    call self.RegisterTokens()
+    call s:Ruby.RegisterAtoms()
+    call s:Ruby.RegisterTokens()
 endfunction

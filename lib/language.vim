@@ -11,22 +11,20 @@ let s:Language.select = #{
     \method_name: "",
     \class_name: "vic",
     \const_name: "ve",
-    \line: "v$h"
-
+    \line: "v$h",
     \i: #{
         \argument: "via",
         \block: "vir",
         \arts: "",
         \barbs: "",
-    }
-
+    \},
     \a: #{
         \argument: "via",
-        \block: "vir"
+        \block: "vir",
         \arts: "",
         \barbs: "",
-    }
-}
+    \}
+\}
 
 function! s:Language.New()
     let language = copy(self)

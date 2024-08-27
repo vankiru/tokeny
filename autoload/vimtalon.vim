@@ -4,9 +4,8 @@ endif
 let g:loaded_vimtalon_autoload = 1
 
 function! vimtalon#LoadLib()
-    runtime lib/atom.vim
     runtime lib/token.vim
-    runtime lib/list.vim
+    runtime lib/select.vim
     runtime lib/language.vim
 endfunction
 

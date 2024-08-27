@@ -1,69 +1,72 @@
 "
 function! s:tokens.RegisterIf()
-    let line = '''\%(.\{-}\)\@<=\s*\<if\>\s*'' . test'
-    let block = '''\%(^\s*\)\@<=\<if\>\s*'' . text'
+    let line = body."\%(.\{-}\)\@<=\s*\<if\>\s*".test
+    let block = "\%(^\s*\)\@<=\<if\>\s*".test.body
 
     let regex = #{
         \test: id.expression,
         \body: base.expression,
-        \search: '\%(' . line . '\|' . block '\)'
+        \token: '\%('.line.'\|'.block'\)'
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \test: "line",
+        \body: ["", "i.block"],
+        \token: ["", "a.block"]
     \}
 
-    call s:Ruby.Register("if", regex, commands)
+    call s:Ruby.Register("if", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterElse()
     let regex = #{
-        \body: '\s*' . id.expression,
-        \search: '\<else\>' . body
+        \body: "\s*".id.body,
+        \token: "\<else\>".body
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \body: "i.block",
+        \token: "a.block"
     \}
 
-    call s:Ruby.Register("if", regex, commands)
+    call s:Ruby.Register("if", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterElsif()
     let regex = #{
         \test: id.expression,
-        \search: '\<elsif\>\s*' . test
+        \body: base.body,
+        \token: "\<elsif\>\s*".test.body
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \test: "line",
+        \body: "i.block",
+        \token: "a.block"
     \}
 
-    call s:Ruby.Register("elsif", regex, commands)
+    call s:Ruby.Register("elsif", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterUnless()
-    let line = '''\%(.\{-}\)\@<=\s*\<unless\>\s*'' . test'
-    let block = '''\%(^\s*\)\@<=\<unless\>\s*'' . text'
+    let line = body."\%(.\{-}\)\@<=\s*\<unless\>\s*".test
+    let block = "\%(^\s*\)\@<=\<unless\>\s*".text
 
     let regex = #{
         \test: id.expression,
         \body: base.expression,
-        \search: '\%(' . line . '\|' . block '\)'
+        \token: '\%(' . line . '\|' . block '\)'
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \change: s:select.ChangeBlockOr(),
+        \chunk: s:select.ChangeBlockOr()
     \}
 
-    call s:Ruby.Register("unless", regex, commands)
+    call s:Ruby.Register("unless", regex, select)
 endfunction
 
 "
@@ -74,15 +77,15 @@ function! s:tokens.RegisterWhile()
     let regex = #{
         \test: id.expression,
         \body: base.expression,
-        \search: '\%(' . line . '\|' . block '\)'
+        \token: '\%(' . line . '\|' . block '\)'
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \change: s:select.ChangeBlockOr(),
+        \chunk: s:select.ChangeBlockOr()
     \}
 
-    call s:Ruby.Register("until", regex, commands)
+    call s:Ruby.Register("until", regex, select)
 endfunction
 
 "
@@ -93,15 +96,15 @@ function! s:tokens.RegisterUntil()
     let regex = #{
         \test: id.expression,
         \body: base.expression,
-        \search: '\%(' . line . '\|' . block '\)'
+        \token: '\%(' . line . '\|' . block '\)'
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \change: s:select.ChangeBlockOr(),
+        \chunk: s:select.ChangeBlockOr()
     \}
 
-    call s:Ruby.Register("until", regex, commands)
+    call s:Ruby.Register("until", regex, select)
 endfunction
 
 "
@@ -109,70 +112,70 @@ function! s:tokens.RegisterTriple()
     let regex = #{
         \test: id.expression,
         \body: base.expression,
-        \search: test . '? .\{-} : .\{-}'
+        \token: test . '? .\{-} : .\{-}'
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \change: s:select.ChangeBlockOr(),
+        \chunk: s:select.ChangeBlockOr()
     \}
 
-    call s:Ruby.Register("triple", regex, commands)
+    call s:Ruby.Register("triple", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterCase()
     let regex = #{
         \test: id.expression,
-        \search: '\<case\>\s*' . test
+        \token: '\<case\>\s*' . test
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlock(),
-        \chunk: s:commands.ChangeBlock()
+    let select = #{
+        \change: s:select.ChangeBlock(),
+        \chunk: s:select.ChangeBlock()
     \}
 
-    call s:Ruby.Register("case", regex, commands)
+    call s:Ruby.Register("case", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterWhen()
     let regex = #{
         \test: id.expression,
-        \search: '\<when\>\s\+' . test . '\%(\s*\<then\>\s*.*\)\@='
+        \token: '\<when\>\s\+' . test . '\%(\s*\<then\>\s*.*\)\@='
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlockOr(),
-        \chunk: s:commands.ChangeBlockOr()
+    let select = #{
+        \change: s:select.ChangeBlockOr(),
+        \chunk: s:select.ChangeBlockOr()
     \}
 
-    call s:Ruby.Register("when", regex, commands)
+    call s:Ruby.Register("when", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterThen()
     let regex = #{
         \body: id.expression,
-        \search: '\<then\>\s*' . body
+        \token: '\<then\>\s*' . body
     \}
 
-    call s:Ruby.Register("then", regex, commands)
+    call s:Ruby.Register("then", regex, select)
 endfunction
 
 "
 function! s:tokens.RegisterEndWhile()
     let regex = #{
         \test: id.expression,
-        \search: '\<end\>\s\+\<while\>\s\+' . test
+        \token: '\<end\>\s\+\<while\>\s\+' . test
     \}
 
-    let commands = #{
-        \change: s:commands.ChangeBlock(),
-        \chunk: s:commands.ChangeBlock()
+    let select = #{
+        \change: s:select.ChangeBlock(),
+        \chunk: s:select.ChangeBlock()
     \}
 
-    call s:Ruby.Register("end_while", regex, commands)
+    call s:Ruby.Register("end_while", regex, select)
 endfunction
 
 "
@@ -180,7 +183,7 @@ function! s:tokens.RegisterBreak()
     let regex = #{
         \test: id.expression,
         \body: id.expression,
-        \search: '\<break\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
+        \token: '\<break\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
     \}
 
     call s:Ruby.Register("break", regex)
@@ -191,7 +194,7 @@ function! s:tokens.RegisterNext()
     let regex = #{
         \test: id.expression,
         \body: id.expression,
-        \search: '\<next\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
+        \token: '\<next\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
     \}
 
     call s:Ruby.Register("next", regex)

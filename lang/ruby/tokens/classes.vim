@@ -21,7 +21,7 @@ endfunction
 function! s:Ruby.tokens.RegisterSuperClass()
     let regex = #{
         \name: id.class_name,
-        \token: "\%(\<class\>\s\+".base.name."\)@<=\s\*<\s*".name
+        \token: "\%(\<class\>\s\+".base.class_name."\)@<=\s\*<\s*".name
     \}
 
     let select = #{
