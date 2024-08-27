@@ -1,4 +1,5 @@
 " ClASS: Token
+" atoms
 " name
 " regex = {
 "   name
@@ -12,11 +13,6 @@
 "   test
 "   token
 " }
-" atoms
-" NameRegex
-" BodyRegex
-" TestRegex
-" SearchRegex
 "============================================================
 let s:Token = {}
 let g:Token = s:Token
@@ -26,85 +22,51 @@ function! s:Token.New(language, name, regex, select)
     let token = copy(self)
 
     let token.name = a:name
-    let token.regex = self._A(a:regex)
     let token.select = a:select
-
-    let atoms = a:language.atoms
+    let token.language = a:language
+    let token.regex = token.PrepareRegex(a:regex)
 
     return token
 endfunction
 
-function! s:Token._A(regex)
-    #{
-        \name: self.PrepareRegex(a:regex, 'name'),
-        \body: self.PrepareRegex(a:regex, 'body'),
-        \test: self.PrepareRegex(a:regex, 'test'),
-        \token: self.PrepareRegex(a:regex)
-    \}
-endfunction
-
-"
-function! s:Token.EvaluateRegex(type = 'none')
-    let base = self.atoms.base
-    let tags = self.atoms.tags
-
-    for key in ['name', 'test', 'body', 'token']
-        let regex = self.PrepareRegex(self.regex[key])
-
-        execute('let '.key.' = '.regex)
-
-        if key ==? a:type
-          let value = '\zs'.value.'\ze'
-        endif
-    endfor
-
-    return self.PrepareRegex(token)
-endfunction
-
-"
 function! s:Token.PrepareRegex(regex)
-    let pat = '{\(\w\+\%(\.\w\+\)\=\)}'
-    let sub = {match -> "'.".match[1].".'"}
-
-    let result = substitute(a:regex, pat, sub, 'g')
-
-    return "'".result."'"
+    return map(
+        \copy(a:regex),
+        \{key, _ -> self.BuildRegex(a:regex, key)}
+    \)
 endfunction
 
-
-
-"
-function! s:Token.EvaluateRegex(id, type = '')
-    let id = a:id
-    let base = self.atoms.base
-    let name = self.atoms.name
+function! s:Token.BuildRegex(regex, type)
+    let base = self.language.atoms.base
+    let tags = self.language.atoms.tags
 
     for key in ['name', 'test', 'body', 'token']
-        execute('let value = '.self.regex[key])
+        let value = get(a:regex, key, '')
 
-        if key ==? a:type
+        if key ==? a:type && key != 'token'
           let value = '\zs'.value.'\ze'
         endif
+
+        let value = self.InterpolateRegex(value)
 
         execute('let '.key.' = '.value)
     endfor
 
-    return token
+    return self.InterpolateRegex(token)
 endfunction
 
-"
-function! s:Token.SearchRegex(id = '')
-    return self.EvaluateRegex(a:id)
+function! s:Token.InterpolateRegex(regex)
+    let pat = '{\(\w\+\%(\.\w\+\)\=\)}'
+    let Sub = {match -> "'.".match[1].".'"}
+
+    let result = substitute(a:regex, pat, Sub, 'g')
+
+    return "'".result."'"
 endfunction
 
-function! s:Token.NameRegex(id = '')
-    return self.EvaluateRegex(a:id, 'name')
+function! s:Token.Regex(id, key = 'token')
+    let id = a:id
+
+    execute('return '.self.regex[a:key])
 endfunction
 
-function! s:Token.TestRegex(id = '')
-    return self.EvaluateRegex(a:id, 'test')
-endfunction
-
-function! s:Token.BodyRegex(id = '')
-    return self.EvaluateRegex(a:id, 'body')
-endfunction

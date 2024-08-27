@@ -7,7 +7,17 @@ if exists("g:loaded_vimtalon")
 endif
 let g:loaded_vimtalon = 1
 
-function! g:BuildRegex(list)
-    let regex = reduce(a:list, { str, value -> str . ' . "\|" . ' .  value }, "")
-    return '"\%(" .' . regex . ' . "\)"'
+function! s:GetToken(name, id)
+    let language = g:Ruby
+    return language.tokens[a:name].Regex(a:id)
+endfunction
+
+function! g:GoTo(name, id = '')
+    let regex = GetToken(name, id)
+    call search(regex)
+endfunction
+
+function! g:GoBack(name, id = '')
+    let regex = GetToken(name, id)
+    call search(regex, 'b')
 endfunction

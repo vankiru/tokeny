@@ -15,7 +15,7 @@ endfunction
 " '\%(*\|**\|&\|\.\.\.\)'
 function! s:tokens.RegisterArt()
     let regex = #{
-        \name: tag.snake_name,
+        \name: tags.snake_name,
         \body: '.',
         \token: s:BuildArtRegex()
     \}
@@ -45,7 +45,7 @@ endfunction
 " '\%({method_name}\|->\s*\)({id}'
 function! s:tokens.RegisterArts()
     let regex = #{
-        \body: '{tag.snake_text}',
+        \body: '{tags.snake_text}',
         \token: '\%({base.method_name}\|->\s*\)\@<=({body}'
     \}
 
@@ -58,7 +58,7 @@ endfunction
 " '{\s*{barbs}'
 function! s:tokens.RegisterBarbs()
     let regex = #{
-        \body: '{tag.snake_text}',
+        \body: '{tags.snake_text}',
         \token: '\%({\s*\)\@<=|{body}|'
     \}
 
