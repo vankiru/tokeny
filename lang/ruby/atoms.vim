@@ -1,9 +1,10 @@
 let s:atoms = g:Ruby.atoms
 
+"\body: '[.|\n]\{-}\(\<\%(end\|else\|elsif\|when\)\>\)\@!'
 function! s:atoms.RegisterBase()
     let snake_name = '\<\h\w*\>'
     let class_name = '\%(::\)\=\<\u\w*\>\%(::\<\u\w*\>\)*'
-    let const_name = '\<\u\(\u\|\d\|_\)*\>'
+    let const_name = '\<\u\%(\u\|\d\|_\)*\>'
     let path = '\<\w\+\>'
 
     let s:atoms.base = #{
@@ -14,10 +15,10 @@ function! s:atoms.RegisterBase()
         \const_name:  const_name,
         \name: '\%('.snake_name.'\|'.const_name.'\|'.class_name.'\)',
         \arts: '\%((.\{-})\|\s\+.*\)\=',
-        \barbs: '|.\{-}|',
+        \barbs: '\%(|.\{-}|\)\=',
         \text: '.\{-}',
         \string: '',
-        \expresion: '',
+        \expression: '.',
         \path: '\/\='.path.'\%(\/\'.path.'\)*\%(\.'.path.'\)\=',
         \modifier: '\%(\s\+\<\%(if\|unless\|while\|until\)\>.*\)\=',
         \body: ''
@@ -27,7 +28,7 @@ endfunction
 function! s:atoms.RegisterTags()
     let snake_name = '\<{id}\w*\>'
     let class_name = '\%(::\)\=\<{id}\w*\>\%(::\<\u\w*\>\)*'
-    let const_name = '\<{id}\(\u\|\d\|_\)*\>'
+    let const_name = '\<{id}\%(\u\|\d\|_\)*\>'
     let path = '\<\w\+\>'
 
     let s:atoms.tags = #{
@@ -37,11 +38,11 @@ function! s:atoms.RegisterTags()
         \class_name: class_name,
         \const_name: const_name,
         \name: '\%('.snake_name.'\|'.const_name.'\|'.class_name.'\)',
-        \arts: '\%(({id}.\{-})\|\s\+{id}.*\)',
-        \barbs: '|{id}.\{-}|',
+        \arts: '\%(({id}.\{-})\|\s\+{id}.*\)\=',
+        \barbs: '\%(|{id}.\{-}|\)\=',
         \text: '{id}.\{-}',
         \string: '',
-        \expresion: '',
+        \expression: '.',
         \path: '\/\=\<{id}\w\+\>\%(\/'.path.'\)*\%(\.'.path.'\)\=',
         \modifier: '\%(\s\+\<\%(if\|unless\|while\|until\)\>{id}.*\)\=',
         \body: ''

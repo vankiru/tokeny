@@ -7,6 +7,10 @@ if exists("g:loaded_vimtalon")
 endif
 let g:loaded_vimtalon = 1
 
+"function! g:JoinRegex(list)
+    "return '\%('.join(a:list, '\|').'\)'
+"endfunction
+
 function! GoTo(token, id = '', key = 'token')
     let language = g:Ruby
     let token = language.GetToken(a:token)

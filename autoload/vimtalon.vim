@@ -17,6 +17,8 @@ endfunction
 function! vimtalon#prepare()
     call vimtalon#loadLib()
     call vimtalon#initRuby()
+
+    call vimtalon#defineCommands()
 endfunction
 
 function! vimtalon#defineCommands()
