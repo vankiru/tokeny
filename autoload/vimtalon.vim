@@ -3,18 +3,23 @@ if exists('g:loaded_vimtalon_autoload')
 endif
 let g:loaded_vimtalon_autoload = 1
 
-function! vimtalon#LoadLib()
+function! vimtalon#loadLib()
     runtime lib/token.vim
     runtime lib/select.vim
     runtime lib/language.vim
 endfunction
 
-function! vimtalon#InitRuby()
+function! vimtalon#initRuby()
     runtime lang/ruby.vim
     call g:Ruby.Initialize()
 endfunction
 
 function! vimtalon#prepare()
-    call vimtalon#LoadLib()
-    call vimtalon#InitRuby()
+    call vimtalon#loadLib()
+    call vimtalon#initRuby()
+endfunction
+
+function! vimtalon#defineCommands()
+    command -nargs=* GoTo :call GoTo(<f-args>)
+    command -nargs=* GoBack :call GoBack(<f-args>)
 endfunction

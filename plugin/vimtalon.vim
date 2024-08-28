@@ -7,17 +7,16 @@ if exists("g:loaded_vimtalon")
 endif
 let g:loaded_vimtalon = 1
 
-function! s:GetToken(name, id)
+function! GoTo(token, id = '', key = 'token')
     let language = g:Ruby
-    return language.tokens[a:name].Regex(a:id)
+    let token = language.GetToken(a:token)
+
+    call token.GoTo(a:id, a:key)
 endfunction
 
-function! g:GoTo(name, id = '')
-    let regex = GetToken(name, id)
-    call search(regex)
-endfunction
+function! GoBack(token, id = '', key = 'token')
+    let language = g:Ruby
+    let token = language.GetToken(a:token)
 
-function! g:GoBack(name, id = '')
-    let regex = GetToken(name, id)
-    call search(regex, 'b')
+    call token.GoBack(a:id, a:key)
 endfunction

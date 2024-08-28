@@ -24,19 +24,20 @@ function! s:Token.New(language, name, regex, select)
     let token.name = a:name
     let token.select = a:select
     let token.language = a:language
-    let token.regex = token.PrepareRegex(a:regex)
+    let token.regex = token._prepareRegex(a:regex)
 
     return token
 endfunction
 
-function! s:Token.PrepareRegex(regex)
+" Building name, test, body and token regexes
+function! s:Token._prepareRegex(regex)
     return map(
         \copy(a:regex),
-        \{key, _ -> self.BuildRegex(a:regex, key)}
+        \{key, _ -> self._buildRegex(a:regex, key)}
     \)
 endfunction
 
-function! s:Token.BuildRegex(regex, type)
+function! s:Token._buildRegex(regex, type)
     let base = self.language.atoms.base
     let tags = self.language.atoms.tags
 
@@ -47,15 +48,15 @@ function! s:Token.BuildRegex(regex, type)
           let value = '\zs'.value.'\ze'
         endif
 
-        let value = self.InterpolateRegex(value)
+        let value = self._interpolateRegex(value)
 
         execute('let '.key.' = '.value)
     endfor
 
-    return self.InterpolateRegex(token)
+    return self._interpolateRegex(token)
 endfunction
 
-function! s:Token.InterpolateRegex(regex)
+function! s:Token._interpolateRegex(regex)
     let pat = '{\(\w\+\%(\.\w\+\)\=\)}'
     let Sub = {match -> "'.".match[1].".'"}
 
@@ -64,9 +65,20 @@ function! s:Token.InterpolateRegex(regex)
     return "'".result."'"
 endfunction
 
-function! s:Token.Regex(id, key = 'token')
+"
+function! s:Token.Regex(id, key)
     let id = a:id
 
     execute('return '.self.regex[a:key])
+endfunction
+
+"function! s:Token.GoTo(id, key)
+function! s:Token.GoTo(id = '', key = 'token')
+    call search(self.Regex(a:id, a:key))
+endfunction
+
+"function! s:Token.GoBack(id, key)
+function! s:Token.GoBack(id = '', key = 'token')
+    call search(self.Regex(a:id, a:key), 'b')
 endfunction
 
