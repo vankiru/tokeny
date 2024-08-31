@@ -1,6 +1,4 @@
-let s:Ruby = g:Ruby
-
-function! s:Ruby.tokens.RegisterBlock()
+function! g:Ruby.tokens.RegisterBlock()
     let multi = '\%(\<\%(while\|until\|for\)\>\s\+.\{-}\)\@<!\s\+\<do\>\s*{base.barbs}\n{body}'
     let inline = '\%(->\|)\|{base.method_name}\)\@<=\s*{\s*{base.barbs}{body}'
 
@@ -14,5 +12,5 @@ function! s:Ruby.tokens.RegisterBlock()
         \token: ['var', 'va{oh']
     \}
 
-    call s:Ruby.Register('block', regex, select)
+    call g:Ruby.Register('block', regex, select)
 endfunction

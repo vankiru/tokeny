@@ -16,12 +16,11 @@ function! s:atoms.RegisterBase()
         \name: '\%('.snake_name.'\|'.const_name.'\|'.class_name.'\)',
         \arts: '\%((.\{-})\|\s\+.*\)\=',
         \barbs: '\%(|.\{-}|\)\=',
+        \exp: '\(\s*\)\@<=.\{-1,}',
         \text: '.\{-}',
         \string: '',
-        \expression: '.',
         \path: '\/\='.path.'\%(\/\'.path.'\)*\%(\.'.path.'\)\=',
-        \modifier: '\%(\s\+\<\%(if\|unless\|while\|until\)\>.*\)\=',
-        \body: ''
+        \modifier: ' \%(\s*\<\%(if\|unless\|while\|until\)\>\s*.\{-}\)\='
     \}
 endfunction
 
@@ -40,11 +39,10 @@ function! s:atoms.RegisterTags()
         \name: '\%('.snake_name.'\|'.const_name.'\|'.class_name.'\)',
         \arts: '\%(({id}.\{-})\|\s\+{id}.*\)\=',
         \barbs: '\%(|{id}.\{-}|\)\=',
+        \exp: '\(\s*\)\@<={id}.\{-}',
         \text: '{id}.\{-}',
         \string: '',
-        \expression: '.',
         \path: '\/\=\<{id}\w\+\>\%(\/'.path.'\)*\%(\.'.path.'\)\=',
-        \modifier: '\%(\s\+\<\%(if\|unless\|while\|until\)\>{id}.*\)\=',
-        \body: ''
+        \modifier: '\%(\s*\<\%(if\|unless\|while\|until\)\>\s*{id}.\{-1,}\)\='
     \}
 endfunction

@@ -1,201 +1,177 @@
 "
-function! s:tokens.RegisterIf()
-    let line = body."\%(.\{-}\)\@<=\s*\<if\>\s*".test
-    let block = "\%(^\s*\)\@<=\<if\>\s*".test.body
+function! g:Ruby.tokens.RegisterControls()
+  call s:RegisterTokenWithModifier('if')
+  call s:RegisterTokenWithModifier('unless')
+  call s:RegisterTokenWithModifier('while')
+  call s:RegisterTokenWithModifier('until')
+
+  call g:Ruby.RegisterElse()
+  call g:Ruby.RegisterElsif()
+  call g:Ruby.RegisterTriple()
+  call g:Ruby.RegisterCase()
+  call g:Ruby.RegisterWhen()
+  call g:Ruby.RegisterThen()
+  call g:Ruby.RegisterBegin()
+  call g:Ruby.RegisterBreak()
+  call g:Ruby.RegisterNext()
+endfunction
+
+"
+function! s:RegisterTokenWithModifier(name)
+    let line = '\%({base.exp}\)\@<=\s*\<'.a:name.'\>\s*{test}'
+    let block = '\%(^\s*\)\@<=\<'.a:name.'\>\s*{test}\n{body}'
 
     let regex = #{
-        \test: id.expression,
-        \body: base.expression,
-        \token: '\%('.line.'\|'.block'\)'
+        \test: '{tags.exp}',
+        \body: '{base.exp}',
+        \token: '\%('.line.'\|'.block.'\)'
     \}
 
     let select = #{
-        \test: "line",
-        \body: ["", "i.block"],
-        \token: ["", "a.block"]
+        \test: 'line',
+        \body: ['', 'i.block'],
+        \token: ['', 'a.block']
     \}
 
-    call s:Ruby.Register("if", regex, select)
+    call g:Ruby.Register(a:name, regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterElse()
+function! g:Ruby.RegisterElse()
     let regex = #{
-        \body: "\s*".id.body,
-        \token: "\<else\>".body
+        \body: '{tags.exp}',
+        \token: '\<else\>\n{body}'
     \}
 
     let select = #{
-        \body: "i.block",
-        \token: "a.block"
+        \body: 'i.block',
+        \token: 'a.block'
     \}
 
-    call s:Ruby.Register("if", regex, select)
+    call g:Ruby.Register('else', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterElsif()
+function! g:Ruby.RegisterElsif()
     let regex = #{
-        \test: id.expression,
-        \body: base.body,
-        \token: "\<elsif\>\s*".test.body
+        \test: '{tags.exp}',
+        \body: '{base.exp}',
+        \token: '\<elsif\>\s*{test}\n{body}'
     \}
 
     let select = #{
-        \test: "line",
-        \body: "i.block",
-        \token: "a.block"
+        \test: 'line',
+        \body: 'i.block',
+        \token: 'a.block'
     \}
 
-    call s:Ruby.Register("elsif", regex, select)
+    call g:Ruby.Register('elsif', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterUnless()
-    let line = body."\%(.\{-}\)\@<=\s*\<unless\>\s*".test
-    let block = "\%(^\s*\)\@<=\<unless\>\s*".text
-
+function! g:Ruby.RegisterTriple()
     let regex = #{
-        \test: id.expression,
-        \body: base.expression,
-        \token: '\%(' . line . '\|' . block '\)'
+        \test: '{tags.exp}',
+        \token: '{test}\s\+?\s*{base.exp}\s*:\s*{base.exp}'
     \}
 
     let select = #{
-        \change: s:select.ChangeBlockOr(),
-        \chunk: s:select.ChangeBlockOr()
+        \test: '',
+        \token: ''
     \}
 
-    call s:Ruby.Register("unless", regex, select)
+    call g:Ruby.Register('triple', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterWhile()
-    let line = '''\%(.\{-}\)\@<=\s*\<while\>\s*'' . test'
-    let block = '''\%(^\s*\)\@<=\<while\>\s*'' . text'
-
+function! g:Ruby.RegisterCase()
     let regex = #{
-        \test: id.expression,
-        \body: base.expression,
-        \token: '\%(' . line . '\|' . block '\)'
+        \test: '{tags.exp}',
+        \body: '{base.exp}',
+        \token: '\<case\>\s\+{test}\n{body}'
     \}
 
     let select = #{
-        \change: s:select.ChangeBlockOr(),
-        \chunk: s:select.ChangeBlockOr()
+        \test: 'line',
+        \body: 'i.block',
+        \token: 'a.block'
     \}
 
-    call s:Ruby.Register("until", regex, select)
+    call g:Ruby.Register('case', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterUntil()
-    let line = '''\%(.\{-}\)\@<=\s*\<while\>\s*'' . test'
-    let block = '''\%(^\s*\)\@<=\<while\>\s*'' . text'
+function! g:Ruby.RegisterWhen()
+    let line = '\%({base.exp}\)\='
+    let multi = '\n{base.exp}'
+    let body = '\%(\s*\<then\>)\=\%('.line.'\|'.multi.'\)'
 
     let regex = #{
-        \test: id.expression,
-        \body: base.expression,
-        \token: '\%(' . line . '\|' . block '\)'
+        \test: '{tags.exp}',
+        \body: '\%('.line.'\|'.multi.'\)',
+        \token: '\<when\>\s\+{test}{body}'
     \}
 
     let select = #{
-        \change: s:select.ChangeBlockOr(),
-        \chunk: s:select.ChangeBlockOr()
+        \test: 'line',
+        \body: ['', ''],
+        \token: ['', '']
     \}
 
-    call s:Ruby.Register("until", regex, select)
+    call g:Ruby.Register('when', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterTriple()
+function! g:Ruby.RegisterThen()
     let regex = #{
-        \test: id.expression,
-        \body: base.expression,
-        \token: test . '? .\{-} : .\{-}'
+        \body: '{tags.exp}',
+        \token: '\<then\>\s\+{body}'
     \}
 
     let select = #{
-        \change: s:select.ChangeBlockOr(),
-        \chunk: s:select.ChangeBlockOr()
+        \body: '',
+        \token: ''
     \}
 
-    call s:Ruby.Register("triple", regex, select)
+    call g:Ruby.Register('then', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterCase()
+function! g:Ruby.RegisterBegin()
     let regex = #{
-        \test: id.expression,
-        \token: '\<case\>\s*' . test
+        \body: '{base.exp}',
+        \token: 'begin\n{body}'
     \}
 
     let select = #{
-        \change: s:select.ChangeBlock(),
-        \chunk: s:select.ChangeBlock()
+        \test: 'line',
+        \body: 'i.block',
+        \token: 'a.block'
     \}
 
-    call s:Ruby.Register("case", regex, select)
+    call g:Ruby.Register('begin', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterWhen()
+function! g:Ruby.RegisterBreak()
     let regex = #{
-        \test: id.expression,
-        \token: '\<when\>\s\+' . test . '\%(\s*\<then\>\s*.*\)\@='
+        \body: '{tags.exp}',
+        \token: '\<break\>\s*{body}{base.modifier}'
     \}
 
-    let select = #{
-        \change: s:select.ChangeBlockOr(),
-        \chunk: s:select.ChangeBlockOr()
-    \}
+    let select = #{}
 
-    call s:Ruby.Register("when", regex, select)
+    call g:Ruby.Register('break', regex, select)
 endfunction
 
 "
-function! s:tokens.RegisterThen()
+function! g:Ruby.RegisterNext()
     let regex = #{
-        \body: id.expression,
-        \token: '\<then\>\s*' . body
+        \body: '{tags.exp}',
+        \token: '\<next\>\s*{body}{base.modifier}'
     \}
 
-    call s:Ruby.Register("then", regex, select)
-endfunction
+    let select = #{}
 
-"
-function! s:tokens.RegisterEndWhile()
-    let regex = #{
-        \test: id.expression,
-        \token: '\<end\>\s\+\<while\>\s\+' . test
-    \}
-
-    let select = #{
-        \change: s:select.ChangeBlock(),
-        \chunk: s:select.ChangeBlock()
-    \}
-
-    call s:Ruby.Register("end_while", regex, select)
-endfunction
-
-"
-function! s:tokens.RegisterBreak()
-    let regex = #{
-        \test: id.expression,
-        \body: id.expression,
-        \token: '\<break\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
-    \}
-
-    call s:Ruby.Register("break", regex)
-endfunction
-
-"
-function! s:tokens.RegisterNext()
-    let regex = #{
-        \test: id.expression,
-        \body: id.expression,
-        \token: '\<next\>\s*' . body . '\%(\s*\<\%(if\|unless\)\>\s*' . test . '\)\@='
-    \}
-
-    call s:Ruby.Register("next", regex)
+    call g:Ruby.Register('next', regex, select)
 endfunction

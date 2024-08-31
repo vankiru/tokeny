@@ -1,9 +1,15 @@
-let s:Ruby = g:Ruby
+"
+function! g:Ruby.tokens.RegisterArguments()
+    call g:Ruby.tokens.RegisterComma()
+    call g:Ruby.tokens.RegisterArt()
+    call g:Ruby.tokens.RegisterArts()
+    call g:Ruby.tokens.RegisterBarbs()
+endfunction
 
 "
 " ',\s*\n\='
-function! s:Ruby.tokens.RegisterComma()
-    call s:Ruby.Register('comma', #{token: ',\s*\n\='}, #{token: 'vwh'})
+function! g:Ruby.tokens.RegisterComma()
+    call g:Ruby.Register('comma', #{token: ',\s*\n\='}, #{token: 'vwh'})
 endfunction
 
 " prefix = '\%(*\|**\|&\)\='
@@ -13,11 +19,11 @@ endfunction
 " suffix = '\%(,\s*\|\%()\||\)\@=\)'
 " '{prefix}{name}\%({default}\|{keyward}\)\={suffix}'
 " '\%(*\|**\|&\|\.\.\.\)'
-function! s:Ruby.tokens.RegisterArt()
+function! g:Ruby.tokens.RegisterArt()
     let regex = #{
         \name: '{tags.snake_name}',
-        \body: '{base.expression}',
-        \token: s:ArtRegex()
+        \body: '{base.exp}',
+        \token: g:ArtRegex()
     \}
 
     let select = #{
@@ -26,10 +32,10 @@ function! s:Ruby.tokens.RegisterArt()
         \token: 'a.argument'
     \}
 
-    call s:Ruby.Register('art', regex, select)
+    call g:Ruby.Register('art', regex, select)
 endfunction
 
-function! s:ArtRegex()
+function! g:ArtRegex()
     let prefix = '\%(\*\|\*\*\|&\)\='
     let name = '{name}'
     let default = '\s*=\s*{body}'
@@ -44,7 +50,7 @@ endfunction
 
 "
 " '\%({method_name}\|->\s*\)({id}'
-function! s:Ruby.tokens.RegisterArts()
+function! g:Ruby.tokens.RegisterArts()
     let regex = #{
         \body: '{tags.snake_text}',
         \token: '\%({base.method_name}\|->\s*\)\@<=({body}'
@@ -52,12 +58,12 @@ function! s:Ruby.tokens.RegisterArts()
 
     let select = #{body: 'vi(', token: 'va('}
 
-    call s:Ruby.Register('arts', regex, select)
+    call g:Ruby.Register('arts', regex, select)
 endfunction
 
 "
 " '{\s*{barbs}'
-function! s:Ruby.tokens.RegisterBarbs()
+function! g:Ruby.tokens.RegisterBarbs()
     let regex = #{
         \body: '{tags.snake_text}',
         \token: '\%({\s*\)\@<=|{body}|'
@@ -65,5 +71,5 @@ function! s:Ruby.tokens.RegisterBarbs()
 
     let select = #{body: 'lvf|h', token: 'vf|'}
 
-    call s:Ruby.Register('barbs', regex, select)
+    call g:Ruby.Register('barbs', regex, select)
 endfunction

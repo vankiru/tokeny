@@ -1,11 +1,21 @@
-let s:Ruby = g:Ruby
-  
 "
-function! s:Ruby.tokens.RegisterClass()
+function! g:Ruby.tokens.RegisterClasses()
+    call g:Ruby.tokens.RegisterClass()
+    call g:Ruby.tokens.RegisterSuperClass()
+    call g:Ruby.tokens.RegisterSelfClass()
+    call g:Ruby.tokens.RegisterClassInit()
+    call g:Ruby.tokens.RegisterPrivate()
+    call g:Ruby.tokens.RegisterProtected()
+    call g:Ruby.tokens.RegisterPublic()
+    call g:Ruby.tokens.RegisterNew()
+endfunction
+
+"
+function! g:Ruby.tokens.RegisterClass()
     let regex = #{
         \name: '{tags.class_name}',
-        \body: '{base.body}',
-        \token: '\<class\>\s\+{name}{body}'
+        \body: '{base.exp}',
+        \token: '\<class\>\s\+{name}\n{body}'
     \}
 
      let select = #{
@@ -14,11 +24,11 @@ function! s:Ruby.tokens.RegisterClass()
          \token: 'a.block'
      \}
 
-    call s:Ruby.Register('class', regex, select)
+    call g:Ruby.Register('class', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterSuperClass()
+function! g:Ruby.tokens.RegisterSuperClass()
     let regex = #{
         \name: '{tags.class_name}',
         \token: '\%(\<class\>\s\+{base.class_name}\)\@<=\s*<\s*{name}'
@@ -29,14 +39,14 @@ function! s:Ruby.tokens.RegisterSuperClass()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('super_class', regex, select)
+    call g:Ruby.Register('super_class', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterSelfClass()
+function! g:Ruby.tokens.RegisterSelfClass()
     let regex = #{
-        \body: '{base.body}',
-        \token: '\<class\>\s*<<\s*\<self\>{body}'
+        \body: '{base.exp}',
+        \token: '\<class\>\s*<<\s*\<self\>\n{body}'
     \}
 
     let select = #{
@@ -44,14 +54,14 @@ function! s:Ruby.tokens.RegisterSelfClass()
         \token: 'a.block'
     \}
 
-    call s:Ruby.Register('self_class', regex, select)
+    call g:Ruby.Register('self_class', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterClassInit()
+function! g:Ruby.tokens.RegisterClassInit()
     let regex = #{
-        \body: '{base.body}',
-        \token: '\<def\>\s*\<initialize\>{base.arts}{body}'
+        \body: '{base.exp}',
+        \token: '\<def\>\s*\<initialize\>{base.arts}\n{body}'
     \}
 
     let select = #{
@@ -59,11 +69,11 @@ function! s:Ruby.tokens.RegisterClassInit()
         \token: 'a.block'
     \}
 
-    call s:Ruby.Register('class_init', regex, select)
+    call g:Ruby.Register('class_init', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterPrivate()
+function! g:Ruby.tokens.RegisterPrivate()
     let regex = #{
         \body: '{tags.arts}',
         \token: '\<private\>{body}'
@@ -74,11 +84,11 @@ function! s:Ruby.tokens.RegisterPrivate()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('private', regex, select)
+    call g:Ruby.Register('private', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterProtected()
+function! g:Ruby.tokens.RegisterProtected()
     let regex = #{
         \body: '{tags.arts}',
         \token: '\<protected\>{body}'
@@ -89,11 +99,11 @@ function! s:Ruby.tokens.RegisterProtected()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('protected', regex, select)
+    call g:Ruby.Register('protected', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterPublic()
+function! g:Ruby.tokens.RegisterPublic()
     let regex = #{
         \body: '{tags.arts}',
         \token: '\<public\>{body}'
@@ -104,11 +114,11 @@ function! s:Ruby.tokens.RegisterPublic()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('public', regex, select)
+    call g:Ruby.Register('public', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterNew()
+function! g:Ruby.tokens.RegisterNew()
     let regex = #{
         \name: '{tags.class_name}',
         \body: '{base.arts}',
@@ -121,5 +131,5 @@ function! s:Ruby.tokens.RegisterNew()
         \token: ''
     \}
 
-    call s:Ruby.Register('new', regex, select)
+    call g:Ruby.Register('new', regex, select)
 endfunction

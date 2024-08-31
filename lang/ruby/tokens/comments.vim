@@ -1,7 +1,14 @@
-let s:Ruby = g:Ruby
+"
+function! g:Ruby.tokens.RegisterComments()
+    call g:Ruby.tokens.RegisterComment()
+    call g:Ruby.tokens.RegisterFrozenString()
+    call g:Ruby.tokens.RegisterMagicEncode()
+    call g:Ruby.tokens.RegisterMagicWarn()
+    call g:Ruby.tokens.RegisterMagicShare()
+endfunction
 
 "
-function! s:Ruby.tokens.RegisterComment()
+function! g:Ruby.tokens.RegisterComment()
     let line = '\s*#[^{]\s*{body}'
     let multi = '=begin\n{body}[.|\n]\{-}=end'
 
@@ -15,19 +22,19 @@ function! s:Ruby.tokens.RegisterComment()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('comment', regex, select)
+    call g:Ruby.Register('comment', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterFrozenString()
+function! g:Ruby.tokens.RegisterFrozenString()
     let regex = #{token: '# frozen_string_literal: true'}
     let select = #{token: 'line'}
 
-    call s:Ruby.Register('frozen_string', regex, select)
+    call g:Ruby.Register('frozen_string', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterMagicEncode()
+function! g:Ruby.tokens.RegisterMagicEncode()
     let regex = #{
         \body: '{tags.snake_name}',
         \token: '# encoding: {body}'
@@ -38,11 +45,11 @@ function! s:Ruby.tokens.RegisterMagicEncode()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('magic_encode', regex, select)
+    call g:Ruby.Register('magic_encode', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterMagicWarn()
+function! g:Ruby.tokens.RegisterMagicWarn()
     let regex = #{
         \body: '{tags.snake_name}',
         \token: '# warn_indent: {body}'
@@ -53,11 +60,11 @@ function! s:Ruby.tokens.RegisterMagicWarn()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('magic_warn', regex, select)
+    call g:Ruby.Register('magic_warn', regex, select)
 endfunction
 
 "
-function! s:Ruby.tokens.RegisterMagicShare()
+function! g:Ruby.tokens.RegisterMagicShare()
     let regex = #{
         \body: '{tags.snake_name}',
         \token: '# shareable_constant_value: {body}'
@@ -68,5 +75,5 @@ function! s:Ruby.tokens.RegisterMagicShare()
         \token: 'line'
     \}
 
-    call s:Ruby.Register('magic_share', regex, select)
+    call g:Ruby.Register('magic_share', regex, select)
 endfunction
