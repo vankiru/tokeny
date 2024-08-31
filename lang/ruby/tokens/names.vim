@@ -1,81 +1,76 @@
-let s:Ruby = g:Ruby
-
-let s:tokens = g:Ruby.tokens
-let s:atoms = s:Ruby.atoms.named
-
 "
 " "\<\h\w*\>"
-function! s:tokens.RegisterVariableName()
-    let regex = #{name: s:atoms.snake_name, search: 'name'}
+function! g:Ruby.tokens.RegisterVariableName()
+    let regex = #{name: s:atoms.snake_name, token: 'name'}
 
-    call s:Ruby.Register("variable_name", regex)
+    call g:Ruby.Register("variable_name", regex)
 endfunction
 
 "
 " "@{snake_name}"
-function! s:tokens.RegisterInstanceVariableName()
-    let regex = #{name: s:atoms.snake_name, search: '''@'' . name'}
+function! g:Ruby.tokens.RegisterInstanceVariableName()
+    let regex = #{name: s:atoms.snake_name, token: '''@'' . name'}
 
-    call s:Ruby.Register("instance_variable_name", regex)
+    call g:Ruby.Register("instance_variable_name", regex)
 endfunction
 
 "
 " "@@{snake_name}"
-function! s:tokens.RegisterClassVariableName()
-    let regex = #{name: s:atoms.snake_name, search: '''@@'' . name'}
+function! g:Ruby.tokens.RegisterClassVariableName()
+    let regex = #{name: s:atoms.snake_name, token: '''@@'' . name'}
 
-    call s:Ruby.Register("class_variable_name", regex)
+    call g:Ruby.Register("class_variable_name", regex)
 endfunction
 
 "
 " "$\%({snake_name}\|\d\+\|[!@_\.&~=\/\\*$?]\)"
-function! s:tokens.RegisterGlobalName()
+function! g:Ruby.tokens.RegisterGlobalName()
     let regex = #{
         \name: s:atoms.snake_name,
-        \search: '''$\%('' . name . ''\|\d\+\|[!@_\.&~=\/\\*$?]\)'''
+        \token: '''$\%('' . name . ''\|\d\+\|[!@_\.&~=\/\\*$?]\)'''
     \}
 
-    call s:Ruby.Register("global_name", regex)
+    call g:Ruby.Register("global_name", regex)
 endfunction
 
 "
 " "{snake_name}[!?]\="
-function! s:tokens.RegisterMethodName()
-    let regex = #{name: s:atoms.method_name, search: 'name'}
+function! g:Ruby.tokens.RegisterMethodName()
+    let regex = #{name: s:atoms.method_name, token: 'name'}
 
-    call s:Ruby.Register("method_name", regex)
+    call g:Ruby.Register("method_name", regex)
 endfunction
 
 "
 " "\<\u\(\u\|\d\|_\)*\>"
-function! s:tokens.RegisterConstName()
-    let regex = #{name: s:atoms.const_name, search: 'name'}
+function! g:Ruby.tokens.RegisterConstName()
+    let regex = #{name: s:atoms.const_name, token: 'name'}
 
-    call s:Ruby.Register("const_name", regex)
+    call g:Ruby.Register("const_name", regex)
 endfunction
 
 "
 " "\%(::\)\=\<\u\w*\>\%(::\<\u\w*\>\)*"
-function! s:tokens.RegisterClassName()
-    let regex = #{name: s:atoms.class_name, search: 'name'}
+function! g:Ruby.tokens.RegisterClassName()
+    let regex = #{name: s:atoms.class_name, token: 'name'}
 
-    call s:Ruby.Register("class_name", regex)
+    call g:Ruby.Register("class_name", regex)
 endfunction
 
 "
 " "\(@\|@@\|$\)\=$\%({snake_name}\|\d\+\|[!@_\.&~=\/\\*$?]\)[!?]\="
-"function! s:tokens.RegisterSnakeName()
+"function! g:Ruby.tokens.RegisterSnakeName()
     "let regex = #{
         "\name: "atoms.snake_name",
-        "\search: '"\(@\|@@\|$\)\=$\%(" . name . "\|\d\+\|[!@_\.&~=\/\\*$?]\)[!?]\="'
+        "\token: '"\(@\|@@\|$\)\=$\%(" . name . "\|\d\+\|[!@_\.&~=\/\\*$?]\)[!?]\="'
     "\}
 
-    "call s:Ruby.Register("snake_name", regex)
+    "call g:Ruby.Register("snake_name", regex)
 "endfunction
 
 "
  "\%({snake_name}\|{const_name}\|{class_name}\)"
-"function! s:tokens.RegisterName()
+"function! g:Ruby.tokens.RegisterName()
     "for atom in ["snake_name", "const_name", "class_name"]
       "execute("let " . atom . " = self." . atom . ".params.name")
     "endfor
@@ -90,8 +85,8 @@ endfunction
         "\name: '"\%(" . names.snake_name . "\|" . names.const_name . "\|" . names.class_name "\)"',
         "\name: self.BuildParam("name", '"\%(" . snake_name . "\|" . const_name . "\|" . class_name "\)"')
       
-        "\search: "name"
+        "\token: "name"
     "\}
 
-    "call s:Ruby.Register("snake_name", regex)
+    "call g:Ruby.Register("snake_name", regex)
 "endfunction

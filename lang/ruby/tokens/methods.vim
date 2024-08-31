@@ -1,58 +1,58 @@
 "
 " "def {id}.*{arts}"
-function! s:tokens.RegisterMethod()
+function! g:Ruby.tokens.RegisterMethod()
     let regex = #{
-        \name: named.method_name,
-        \search: "\<def\>\s\+".id.noname.arts
+        \name: tags.method_name,
+        \token: "\<def\>\s\+".id.base.arts
     \}
 
     let commands = #{}
 
-    call s:Ruby.Register("method", regex, commands)
+    call g:Ruby.Register("method", regex, commands)
 endfunction
 
 "
 " ".{id}"
 " "&.{id}"
-function! s:tokens.RegisterCall()
+function! g:Ruby.tokens.RegisterCall()
     let regex = #{
-        \name: named.method_name,
-        \search: "\&\=\.".name.noname.arts.noname.block
+        \name: tags.method_name,
+        \token: "\&\=\.".name.base.arts.base.block
     \}
 
-    call s:Ruby.Register("call", regex)
+    call g:Ruby.Register("call", regex)
 endfunction
 
 "
 " "return",
-function! s:tokens.RegisterReturn()
+function! g:Ruby.tokens.RegisterReturn()
     let regex = #{
-        \body: named.expression,
-        \search: "\<return\>\s*\%(".body."\)\=".noname.modifier
+        \body: tags.expression,
+        \token: "\<return\>\s*\%(".body."\)\=".base.modifier
     \}
 
-    call s:Ruby.Register("return", regex)
+    call g:Ruby.Register("return", regex)
 endfunction
 
 "
 " "super",
-function! s:tokens.RegisterSuper()
+function! g:Ruby.tokens.RegisterSuper()
     let regex = #{
-        \body: named.arts,
-        \search: "\<super\>\s*".body
+        \body: tags.arts,
+        \token: "\<super\>\s*".body
     \}
 
-    call s:Ruby.Register("super", regex)
+    call g:Ruby.Register("super", regex)
 endfunction
 
 "
 " "yield",
 " "yeild self",
-function! s:tokens.RegisterYield()
+function! g:Ruby.tokens.RegisterYield()
     let regex = #{
-        \body: named.expression,
-        \search: "\<yield\>\s*".body
+        \body: tags.expression,
+        \token: "\<yield\>\s*".body
     \}
 
-    call s:Ruby.Register("super", regex)
+    call g:Ruby.Register("super", regex)
 endfunction

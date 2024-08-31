@@ -1,66 +1,69 @@
+function! g:Ruby.tokens.RegisterDataTypes()
+endfunction
+
 " VALUE_REGEX = "\([[:alnum:]_\"',\. @$\[\]{}()]\+\|:\w\+\)"
 
 "
 "true": "\<true\>[?!]\@!",
-function! s:tokens.RegisterTrue()
-    call s:Ruby.Register("true", #{search: '\<true\>'})
+function! g:Ruby.tokens.RegisterTrue()
+    call g:Ruby.Register("true", #{search: '\<true\>'})
 endfunction
 
 "
 "false": "\<false\>[?!]\@!",
-function! s:tokens.RegisterFalse()
-    call s:Ruby.Register("false", #{search: '\<false\>'})
+function! g:Ruby.tokens.RegisterFalse()
+    call g:Ruby.Register("false", #{search: '\<false\>'})
 endfunction
 
 "
 "nil": "\<nil\>[?!]\@!",
-function! s:tokens.RegisterNil()
-    call s:Ruby.Register("nil", #{search: '\<nil\>'})
+function! g:Ruby.tokens.RegisterNil()
+    call g:Ruby.Register("nil", #{search: '\<nil\>'})
 endfunction
 
 " "{id}\d*"
-function! s:tokens.RegisterNumber()
+function! g:Ruby.tokens.RegisterNumber()
     let regex = #{
         \search: ''
     \}
 
-    call s:Ruby.Register("number", regex)
+    call g:Ruby.Register("number", regex)
 endfunction
 
 "
 " "string": {
 "     "search_regex": '"{id}.*"'
 " },
-function! s:tokens.RegisterString()
+function! g:Ruby.tokens.RegisterString()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("string", regex)
+      call g:Ruby.Register("string", regex)
 endfunction
 
 "
 " "sim": {
 "     "search_regex": ":{id}\w*"
 " },
-function! s:tokens.RegisterSim()
+function! g:Ruby.tokens.RegisterSim()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("sim", regex)
+      call g:Ruby.Register("sim", regex)
 endfunction
 
 "
 " "rig": {
 "     "search_regex": "\/{id}.*\/
 " }"
-function! s:tokens.RegisterRegex()
+function! g:Ruby.tokens.RegisterRegex()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("regex", regex)
+      call g:Ruby.Register("regex", regex)
 endfunction
 
 "
@@ -68,12 +71,12 @@ endfunction
 "     "search_regex": "\(\w\+\)\@<!\([$\|\[{id}.*\]\)"
 "     "search_regex": "Array\.new(.*)"
 " },
-function! s:tokens.RegisterArray()
+function! g:Ruby.tokens.RegisterArray()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("array", regex)
+      call g:Ruby.Register("array", regex)
 endfunction
 
 "
@@ -81,36 +84,36 @@ endfunction
 "     "search_regex": "\(#\|-> \|\w\+\((.*)\)\? \)\@<!\({$\|{{id}.*}\)"
 "     "search_regex": "Hash\.new(.*)"
 " },
-function! s:tokens.RegisterHash()
+function! g:Ruby.tokens.RegisterHash()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("hash", regex)
+      call g:Ruby.Register("hash", regex)
 endfunction
 
 "
 " "set": {
 "     "search_regex": "Set\.new(.*)"
 " },
-function! s:tokens.RegisterSet()
+function! g:Ruby.tokens.RegisterSet()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("set", regex)
+      call g:Ruby.Register("set", regex)
 endfunction
 
 "
 " "lambda": {
 "     "search_regex": "-> {.*}"
 " },
-function! s:tokens.RegisterLambda()
+function! g:Ruby.tokens.RegisterLambda()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("lambda", regex)
+      call g:Ruby.Register("lambda", regex)
 endfunction
 
 "
@@ -120,12 +123,12 @@ endfunction
 "     "search_regex": "(\.\.{id}\d*)"
 "     "search_regex": "(\.\.\.{id}\d*)"
 " },
-function! s:tokens.RegisterRange()
+function! g:Ruby.tokens.RegisterRange()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("", regex)
+      call g:Ruby.Register("", regex)
 endfunction
 
 "
@@ -134,12 +137,12 @@ endfunction
 "     "id_type": "snake_case",
 "     "search_regex": "#{{{id}.\{-}}}"
 " },
-function! s:tokens.RegisterInterpolation()
+function! g:Ruby.tokens.RegisterInterpolation()
       let regex = #{
           \search: ''
       \}
 
-      call s:Ruby.Register("interpolation", regex)
+      call g:Ruby.Register("interpolation", regex)
 endfunction
 
 "
@@ -148,21 +151,21 @@ endfunction
 "     "search_regex": f'"{{id}}\w*": \({VALUE_REGEX}, \ze\|{VALUE_REGEX\ze[}|]\)',
 "     "search_regex": f"{{id}}\w* => \({VALUE_REGEX}, \ze\|{VALUE_REGEX\ze[}|]\)",
 " }
-function! s:tokens.RegisterKey()
+function! g:Ruby.tokens.RegisterKey()
     let regex = #{
       \search: ''
       \}
 
-      call s:Ruby.Register("key", regex)
+      call g:Ruby.Register("key", regex)
 endfunction
 
 "
 " "item": {
 " }
-function! s:tokens.RegisterItem()
+function! g:Ruby.tokens.RegisterItem()
     let regex = #{
       \search: ''
       \}
 
-      call s:Ruby.Register("item", regex)
+      call g:Ruby.Register("item", regex)
 endfunction
