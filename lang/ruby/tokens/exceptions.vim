@@ -1,3 +1,4 @@
+"
 function! g:Ruby.tokens.RegisterExceptions()
     call g:Ruby.tokens.RegisterRaise()
     call g:Ruby.tokens.RegisterRescue()
@@ -12,11 +13,10 @@ function! g:Ruby.tokens.RegisterRaise()
     let class = '{tags.class_name}\%(\.\<new\>{base.arts}\)\='
     let string = '"{tags.text}"'
     let exp = '{tags.exp}'
-    let blank = '\s*$\|{base.modifier}'
 
     let regex = #{
-        \body: '\%('.class.'\|'.string.'\|'.exp.'\|'.blank.'\)',
-        \token: '\<raise\>\s\+{body}'
+        \body: '\%('.class.'\|'.string.'\|'.exp.'\)',
+        \token: '\<raise\>\s*{body}'
     \}
 
     let select = #{
@@ -34,10 +34,11 @@ function! g:Ruby.tokens.RegisterRescue()
     let variable = '=>\s*{tags.snake_name}'
     let combine_class = class.'\s*=>\s*{base.snake_name}'
     let combine_variable = '{base.class_name}\%(,\s*{base.class_name}\)*\s*'.variable
+    let blank = '{tags.exp}'
 
     let regex = #{
-        \body: '\%('.class.'\|'.variable.'\|'.combine_class.'\|'.combine_variable.'\|\s*$\)',
-        \token: '\<rescue\>\s\+{body}'
+        \body: '\%('.class.'\|'.variable.'\|'.combine_class.'\|'.combine_variable.'\|'.blank.'\)',
+        \token: '\<rescue\>\s*{body}'
     \}
 
     let select = #{
