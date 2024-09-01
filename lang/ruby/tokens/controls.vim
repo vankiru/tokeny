@@ -1,9 +1,9 @@
 "
 function! g:Ruby.tokens.RegisterControls()
-  call s:RegisterTokenWithModifier('if')
-  call s:RegisterTokenWithModifier('unless')
-  call s:RegisterTokenWithModifier('while')
-  call s:RegisterTokenWithModifier('until')
+  call g:Ruby.tokens.RegisterModifierControl('if')
+  call g:Ruby.tokens.RegisterModifierControl('unless')
+  call g:Ruby.tokens.RegisterModifierControl('while')
+  call g:Ruby.tokens.RegisterModifierControl('until')
 
   call g:Ruby.RegisterElse()
   call g:Ruby.RegisterElsif()
@@ -17,7 +17,7 @@ function! g:Ruby.tokens.RegisterControls()
 endfunction
 
 "
-function! s:RegisterTokenWithModifier(name)
+function! g:Ruby.tokens.RegisterModifierControl(name)
     let line = '\%({base.exp}\)\@<=\s*\<'.a:name.'\>\s*{test}'
     let block = '\%(^\s*\)\@<=\<'.a:name.'\>\s*{test}\n{body}'
 

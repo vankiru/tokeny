@@ -22,6 +22,7 @@ function! s:Ruby.LoadTokens()
     "runtime lang/ruby/tokens/data_types.vim
     runtime lang/ruby/tokens/exceptions.vim
     runtime lang/ruby/tokens/methods.vim
+    runtime lang/ruby/tokens/modules.vim
 endfunction
 
 "
@@ -34,6 +35,7 @@ function! s:Ruby.RegisterTokens()
     "call s:Ruby.tokens.RegisterDataTypes()
     call s:Ruby.tokens.RegisterExceptions()
     call s:Ruby.tokens.RegisterMethods()
+    call s:Ruby.tokens.RegisterModules()
 endfunction
 
 "
@@ -44,4 +46,3 @@ function! s:Ruby.Initialize()
     call s:Ruby.RegisterAtoms()
     call s:Ruby.RegisterTokens()
 endfunction
-

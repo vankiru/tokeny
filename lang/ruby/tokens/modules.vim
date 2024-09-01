@@ -1,57 +1,39 @@
-" "module {id}",
-function! g:Ruby.tokens.RegisterModule()
+"
+function! g:Ruby.tokens.RegisterModules()
+    call g:Ruby.tokens.RegisterDefineModule('module')
+    call g:Ruby.tokens.RegisterDefineModule('refine')
+
+    call g:Ruby.tokens.RegisterImportModule('include')
+    call g:Ruby.tokens.RegisterImportModule('extend')
+    call g:Ruby.tokens.RegisterImportModule('using')
+endfunction
+
+" <module/refine> {class_name}
+" {body}
+" end
+function! g:Ruby.tokens.RegisterDefineModule(name)
     let regex = #{
-        \name: tags.class_name,
-        \token: "\<module\>\s\+".name
+        \name: '{tags.class_name}',
+        \body: '{base.exp}',
+        \token: '\<'.a:name.'\>\s\+{name}\n{body}'
     \}
 
-    let commands = #{}
+    let select = #{
+    \}
 
-    call g:Ruby.Register("module", regex, commands)
+    call g:Ruby.Register(a:name, regex, select)
 endfunction
 
 "
-" "refine {id}",
-function! g:Ruby.tokens.RegisterRefine()
+" <include/extend/using> {class_name}
+function! g:Ruby.tokens.RegisterImportModule(name)
     let regex = #{
-        \name: tags.class_name,
-        \token: "\<refine\>\s\+".name
+        \name: '{tags.class_name}',
+        \token: '\<'.a:name.'\>\s\+{name}'
     \}
 
-    let commands = #{}
-
-    call g:Ruby.Register("refine", regex, commands)
-endfunction
-
-"
-" "include {id}",
-function! g:Ruby.tokens.RegisterInclude()
-    let regex = #{
-        \name: tags.class_name,
-        \token: "\<include\>\s\+".name
+    let select = #{
     \}
 
-    call g:Ruby.Register("include", regex)
-endfunction
-
-"
-" "extend {id}",
-function! g:Ruby.tokens.RegisterExtend()
-    let regex = #{
-        \name: tags.class_name,
-        \token: "\<extend\>\s\+".name
-    \}
-
-    call g:Ruby.Register("extend", regex)
-endfunction
-
-"
-" "using {id}",
-function! g:Ruby.tokens.RegisterUsing()
-    let regex = #{
-        \name: tags.class_name,
-        \token: "\<using\>\s\+".name
-    \}
-
-    call g:Ruby.Register("using", regex)
+    call g:Ruby.Register(a:name, regex, select)
 endfunction
