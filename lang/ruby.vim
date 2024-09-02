@@ -23,6 +23,8 @@ function! s:Ruby.LoadTokens()
     runtime lang/ruby/tokens/exceptions.vim
     runtime lang/ruby/tokens/methods.vim
     runtime lang/ruby/tokens/modules.vim
+    runtime lang/ruby/tokens/names.vim
+    runtime lang/ruby/tokens/operators.vim
 endfunction
 
 "
@@ -36,6 +38,8 @@ function! s:Ruby.RegisterTokens()
     call s:Ruby.tokens.RegisterExceptions()
     call s:Ruby.tokens.RegisterMethods()
     call s:Ruby.tokens.RegisterModules()
+    call s:Ruby.tokens.RegisterNames()
+    call s:Ruby.tokens.RegisterOperators()
 endfunction
 
 "
