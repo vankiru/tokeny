@@ -25,6 +25,7 @@ function! s:Ruby.LoadTokens()
     runtime lang/ruby/tokens/modules.vim
     runtime lang/ruby/tokens/names.vim
     runtime lang/ruby/tokens/operators.vim
+    runtime lang/ruby/tokens/statements.vim
 endfunction
 
 "
@@ -40,6 +41,7 @@ function! s:Ruby.RegisterTokens()
     call s:Ruby.tokens.RegisterModules()
     call s:Ruby.tokens.RegisterNames()
     call s:Ruby.tokens.RegisterOperators()
+    call s:Ruby.tokens.RegisterStatements()
 endfunction
 
 "
