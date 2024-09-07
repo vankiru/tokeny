@@ -2,10 +2,10 @@
 " Description:  vim commands for editing code files through Talon
 " Maintainer:   Julia Egorova <https://github.com/vankiru>
 
-if exists("g:loaded_vimtalon")
+if exists("g:loaded_tokeny")
   finish
 endif
-let g:loaded_vimtalon = 1
+let g:loaded_tokeny = 1
 
 "function! g:JoinRegex(list)
     "return '\%('.join(a:list, '\|').'\)'

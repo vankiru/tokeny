@@ -6,26 +6,6 @@
 let s:Language = #{atoms: {}, tokens: {}}
 let g:Language = s:Language
 
-let s:Language.select = #{
-    \snake_name: "ve",
-    \method_name: "",
-    \class_name: "vic",
-    \const_name: "ve",
-    \line: "v$h",
-    \i: #{
-        \argument: "via",
-        \block: "vir",
-        \arts: "",
-        \barbs: "",
-    \},
-    \a: #{
-        \argument: "via",
-        \block: "vir",
-        \arts: "",
-        \barbs: "",
-    \}
-\}
-
 function! s:Language.New()
     let language = copy(self)
     return language
