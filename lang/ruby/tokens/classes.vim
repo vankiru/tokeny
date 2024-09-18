@@ -4,15 +4,20 @@ function! g:Ruby.tokens.RegisterClasses()
     call g:Ruby.tokens.RegisterSuperClass()
     call g:Ruby.tokens.RegisterSelfClass()
     call g:Ruby.tokens.RegisterInitialize()
-    call g:Ruby.tokens.RegisterPrivate()
-    call g:Ruby.tokens.RegisterProtected()
-    call g:Ruby.tokens.RegisterPublic()
     call g:Ruby.tokens.RegisterNew()
+
+    call g:Ruby.tokens.RegisterVisibility('private')
+    call g:Ruby.tokens.RegisterVisibility('protected')
+    call g:Ruby.tokens.RegisterVisibility('public')
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterClass()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: 'class {name}\nend', move: 'k$'}
+    \}
+
+    let search = #{
         \name: '{tags.class_name}',
         \body: '{base.exp}',
         \token: '\<class\>\s\+{name}\n{body}'
@@ -24,12 +29,16 @@ function! g:Ruby.tokens.RegisterClass()
          \token: 'a.block'
      \}
 
-    call g:Ruby.Register('class', regex, select)
+    call g:Ruby.Register('class', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterSuperClass()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '< {name}'}
+    \}
+
+    let search = #{
         \name: '{tags.class_name}',
         \token: '\%(\<class\>\s\+{base.class_name}\)\@<=\s*<\s*{name}'
     \}
@@ -39,12 +48,16 @@ function! g:Ruby.tokens.RegisterSuperClass()
         \token: 'line'
     \}
 
-    call g:Ruby.Register('super_class', regex, select)
+    call g:Ruby.Register('super_class', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterSelfClass()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: 'class << self\nend', move: 'k$'}
+    \}
+
+    let search = #{
         \body: '{base.exp}',
         \token: '\<class\>\s*<<\s*\<self\>\n{body}'
     \}
@@ -54,12 +67,16 @@ function! g:Ruby.tokens.RegisterSelfClass()
         \token: 'a.block'
     \}
 
-    call g:Ruby.Register('self_class', regex, select)
+    call g:Ruby.Register('self_class', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterInitialize()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: 'def initialize\nend', move: 'k$'}
+    \}
+
+    let search = #{
         \body: '{base.exp}',
         \token: '\<def\>\s*\<initialize\>{base.arts}\n{body}'
     \}
@@ -69,57 +86,16 @@ function! g:Ruby.tokens.RegisterInitialize()
         \token: 'a.block'
     \}
 
-    call g:Ruby.Register('initialize', regex, select)
-endfunction
-
-"
-function! g:Ruby.tokens.RegisterPrivate()
-    let regex = #{
-        \body: '{tags.arts}',
-        \token: '\<private\>{body}'
-    \}
-
-    let select = #{
-        \body: 'line',
-        \token: 'line'
-    \}
-
-    call g:Ruby.Register('private', regex, select)
-endfunction
-
-"
-function! g:Ruby.tokens.RegisterProtected()
-    let regex = #{
-        \body: '{tags.arts}',
-        \token: '\<protected\>{body}'
-    \}
-
-    let select = #{
-        \body: 'line',
-        \token: 'line'
-    \}
-
-    call g:Ruby.Register('protected', regex, select)
-endfunction
-
-"
-function! g:Ruby.tokens.RegisterPublic()
-    let regex = #{
-        \body: '{tags.arts}',
-        \token: '\<public\>{body}'
-    \}
-
-    let select = #{
-        \body: 'line',
-        \token: 'line'
-    \}
-
-    call g:Ruby.Register('public', regex, select)
+    call g:Ruby.Register('initialize', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterNew()
-    let regex = #{
+    let input = #{
+        \base: #{type: "space", text: "{name}.new"}
+    \}
+
+    let search = #{
         \name: '{tags.class_name}',
         \body: '{base.arts}',
         \token: '{name}\.new{body}'
@@ -131,5 +107,24 @@ function! g:Ruby.tokens.RegisterNew()
         \token: ''
     \}
 
-    call g:Ruby.Register('new', regex, select)
+    call g:Ruby.Register('new', input, search, select)
+endfunction
+
+"
+function! g:Ruby.tokens.RegisterVisibility(type)
+    let input = #{
+        \base: #{type: "line", text: a:type},
+    \}
+
+    let search = #{
+        \body: '{tags.arts}',
+        \token: '\<'.a:type.'\>{body}'
+    \}
+
+    let select = #{
+        \body: 'line',
+        \token: 'line'
+    \}
+
+    call g:Ruby.Register('private', input, search, select)
 endfunction

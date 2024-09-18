@@ -1,8 +1,13 @@
 function! g:Ruby.tokens.RegisterBlock()
+    let input = #{
+        \inline: #{type: 'space', text: '{ }', move: '2h'},
+        \block: #{type: 'space', text: 'do\nend', move: 'k$'}
+    \}
+
     let multi = '\%(\<\%(while\|until\|for\)\>\s\+.\{-}\)\@<!\s\+\<do\>\s*{base.barbs}\n{body}'
     let inline = '\%(->\|)\|{base.method_name}\)\@<=\s*{\s*{base.barbs}{body}'
 
-    let regex = #{
+    let search = #{
         \body: '\s*[^}]',
         \token: '\%('.multi.'\|'.inline.'\)'
     \}
@@ -12,5 +17,5 @@ function! g:Ruby.tokens.RegisterBlock()
         \token: ['var', 'va{oh']
     \}
 
-    call g:Ruby.Register('block', regex, select)
+    call g:Ruby.Register('block', input, search, select)
 endfunction

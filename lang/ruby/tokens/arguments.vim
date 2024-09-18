@@ -10,7 +10,7 @@ endfunction
 " ',\s*\n\='
 function! g:Ruby.tokens.RegisterComma()
     let inputs = #{
-        base: #{type: "after", text: ","}
+        \base: #{type: 'after', text: ','}
     \}
 
     let search = #{token: ',\s*\n\='}
@@ -28,10 +28,10 @@ endfunction
 " '\%(*\|**\|&\|\.\.\.\)'
 function! g:Ruby.tokens.RegisterArt()
     let input = #{
-        list: #{type: "space", text: "*{name}"},
-        hash: #{type: "space", text: "**{name}"},
-        block: #{type: "space", text: "&{name}"},
-        default: #{type: "space", text: "{name} = "}
+        \list: #{type: 'space', text: '*{name}'},
+        \hash: #{type: 'space', text: '**{name}'},
+        \block: #{type: 'space', text: '&{name}'},
+        \default: #{type: 'space', text: '{name} = '}
     \}
 
     let search = #{
@@ -66,9 +66,9 @@ endfunction
 " '\%({method_name}\|->\s*\)({id}'
 function! g:Ruby.tokens.RegisterArts()
     let input = #{
-        \base: #{type: "after", text: "()", move: "h"},
-        \left: #{type: "after", text: "("},
-        \right: #{type: "after", text: ")"}
+        \base: #{type: 'after', text: '()', move: 'h'},
+        \left: #{type: 'after', text: '('},
+        \right: #{type: 'after', text: ')'}
     \}
 
     let search = #{
@@ -85,8 +85,8 @@ endfunction
 " '{\s*{barbs}'
 function! g:Ruby.tokens.RegisterBarbs()
     let input = #{
-        \base: #{type: "space", text: "||", move: "h"},
-        \single: #{type: "after", text: "|"},
+        \base: #{type: 'space', text: '||', move: 'h'},
+        \single: #{type: 'after', text: '|'}
     \}
 
     let search = #{

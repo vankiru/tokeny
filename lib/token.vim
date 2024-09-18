@@ -29,7 +29,7 @@ function! s:Token.New(language, input, search, select)
 
     let token.input = a:input
     let token.select = a:select
-    let token.regex = token._prepareRegex(a:regex)
+    let token.search = token._prepareRegex(a:search)
 
     return token
 endfunction
@@ -74,7 +74,7 @@ endfunction
 function! s:Token.Regex(id, key)
     let id = a:id
 
-    execute('return '.self.regex[a:key])
+    execute('return '.self.search[a:key])
 endfunction
 
 "function! s:Token.GoTo(id, key)

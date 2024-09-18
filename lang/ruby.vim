@@ -31,8 +31,8 @@ endfunction
 "
 function! s:Ruby.RegisterTokens()
     call s:Ruby.tokens.RegisterArguments()
-    "call s:Ruby.tokens.RegisterBlock()
-    "call s:Ruby.tokens.RegisterClasses()
+    call s:Ruby.tokens.RegisterBlock()
+    call s:Ruby.tokens.RegisterClasses()
     "call s:Ruby.tokens.RegisterComments()
     "call s:Ruby.tokens.RegisterControls()
     "call s:Ruby.tokens.RegisterDataTypes()
