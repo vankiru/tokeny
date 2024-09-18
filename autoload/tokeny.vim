@@ -22,6 +22,6 @@ function! tokeny#initRuby()
 endfunction
 
 function! tokeny#defineCommands()
-    command -nargs=* GoTo :call GoTo(<f-args>)
-    command -nargs=* GoBack :call GoBack(<f-args>)
+    command -nargs=* TokenyTo :call TokenyTo(<f-args>)
+    command -nargs=* TokenyBack :call TokenyBack(<f-args>)
 endfunction

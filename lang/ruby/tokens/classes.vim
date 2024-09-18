@@ -3,7 +3,7 @@ function! g:Ruby.tokens.RegisterClasses()
     call g:Ruby.tokens.RegisterClass()
     call g:Ruby.tokens.RegisterSuperClass()
     call g:Ruby.tokens.RegisterSelfClass()
-    call g:Ruby.tokens.RegisterClassInit()
+    call g:Ruby.tokens.RegisterInitialize()
     call g:Ruby.tokens.RegisterPrivate()
     call g:Ruby.tokens.RegisterProtected()
     call g:Ruby.tokens.RegisterPublic()
@@ -58,7 +58,7 @@ function! g:Ruby.tokens.RegisterSelfClass()
 endfunction
 
 "
-function! g:Ruby.tokens.RegisterClassInit()
+function! g:Ruby.tokens.RegisterInitialize()
     let regex = #{
         \body: '{base.exp}',
         \token: '\<def\>\s*\<initialize\>{base.arts}\n{body}'
@@ -69,7 +69,7 @@ function! g:Ruby.tokens.RegisterClassInit()
         \token: 'a.block'
     \}
 
-    call g:Ruby.Register('class_init', regex, select)
+    call g:Ruby.Register('initialize', regex, select)
 endfunction
 
 "
