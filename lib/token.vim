@@ -1,7 +1,11 @@
 " ClASS: Token
 " atoms
 " name
-" regex = {
+" inputs = {
+"  name
+"  Input
+" }
+" search = {
 "   name
 "   body
 "   test
@@ -18,12 +22,13 @@ let s:Token = {}
 let g:Token = s:Token
 
 "
-function! s:Token.New(language, name, regex, select)
+function! s:Token.New(language, input, search, select)
     let token = copy(self)
 
-    let token.name = a:name
-    let token.select = a:select
     let token.language = a:language
+
+    let token.input = a:input
+    let token.select = a:select
     let token.regex = token._prepareRegex(a:regex)
 
     return token

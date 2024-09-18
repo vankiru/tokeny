@@ -12,10 +12,11 @@ function! s:Language.New()
 endfunction
 
 "
-function! s:Language.Register(name, regex, select)
-    let self.tokens[a:name] = g:Token.New(self, a:name, a:regex, a:select)
+function! s:Language.Register(name, input, search, select)
+    let self.tokens[a:name] = g:Token.New(self, a:input, a:search, a:select)
 endfunction
 
+"
 function! s:Language.GetToken(name)
     let token = get(self.tokens, a:name, {})
 

@@ -9,7 +9,14 @@ endfunction
 "
 " ',\s*\n\='
 function! g:Ruby.tokens.RegisterComma()
-    call g:Ruby.Register('comma', #{token: ',\s*\n\='}, #{token: 'vwh'})
+    let inputs = #{
+        base: #{type: "after", text: ","}
+    \}
+
+    let search = #{token: ',\s*\n\='}
+    let select = #{token: 'vwh'}
+
+    call g:Ruby.Register('comma', inputs, search, select)
 endfunction
 
 " prefix = '\%(*\|**\|&\)\='
@@ -20,7 +27,14 @@ endfunction
 " '{prefix}{name}\%({default}\|{keyward}\)\={suffix}'
 " '\%(*\|**\|&\|\.\.\.\)'
 function! g:Ruby.tokens.RegisterArt()
-    let regex = #{
+    let input = #{
+        list: #{type: "space", text: "*{name}"},
+        hash: #{type: "space", text: "**{name}"},
+        block: #{type: "space", text: "&{name}"},
+        default: #{type: "space", text: "{name} = "}
+    \}
+
+    let search = #{
         \name: '{tags.snake_name}',
         \body: '{base.exp}',
         \token: g:ArtRegex()
@@ -32,7 +46,7 @@ function! g:Ruby.tokens.RegisterArt()
         \token: 'a.argument'
     \}
 
-    call g:Ruby.Register('art', regex, select)
+    call g:Ruby.Register('art', input, search, select)
 endfunction
 
 function! g:ArtRegex()
@@ -51,25 +65,36 @@ endfunction
 "
 " '\%({method_name}\|->\s*\)({id}'
 function! g:Ruby.tokens.RegisterArts()
-    let regex = #{
+    let input = #{
+        \base: #{type: "after", text: "()", move: "h"},
+        \left: #{type: "after", text: "("},
+        \right: #{type: "after", text: ")"}
+    \}
+
+    let search = #{
         \body: '{tags.snake_text}',
         \token: '\%({base.method_name}\|->\s*\)\@<=({body}'
     \}
 
     let select = #{body: 'vi(', token: 'va('}
 
-    call g:Ruby.Register('arts', regex, select)
+    call g:Ruby.Register('arts', input, search, select)
 endfunction
 
 "
 " '{\s*{barbs}'
 function! g:Ruby.tokens.RegisterBarbs()
-    let regex = #{
+    let input = #{
+        \base: #{type: "space", text: "||", move: "h"},
+        \single: #{type: "after", text: "|"},
+    \}
+
+    let search = #{
         \body: '{tags.snake_text}',
         \token: '\%({\s*\)\@<=|{body}|'
     \}
 
     let select = #{body: 'lvf|h', token: 'vf|'}
 
-    call g:Ruby.Register('barbs', regex, select)
+    call g:Ruby.Register('barbs', input, search, select)
 endfunction
