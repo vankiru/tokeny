@@ -9,10 +9,15 @@ endfunction
 
 "
 function! g:Ruby.tokens.RegisterComment()
+    let input = #{
+        \base: #{type: 'space', text: '# {value}'},
+        \multi: #{type: 'line', text: '=begin\n{value}\n=end', move: 'k$'}
+    \}
+
     let line = '\s*#[^{]\s*{body}'
     let multi = '=begin\n{body}[.|\n]\{-}=end'
 
-    let regex = #{
+    let search = #{
         \body: '{tags.text}',
         \token: '\%('.line.'\|'.multi.'\)'
     \}
@@ -22,20 +27,27 @@ function! g:Ruby.tokens.RegisterComment()
         \token: 'line'
     \}
 
-    call g:Ruby.Register('comment', regex, select)
+    call g:Ruby.Register('comment', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterFrozenString()
-    let regex = #{token: '# frozen_string_literal: true'}
+    let input = #{
+        \base: #{type: 'line', text: '# frozen_strin_literal: true'},
+    \}
+    let search = #{token: '# frozen_string_literal:'}
     let select = #{token: 'line'}
 
-    call g:Ruby.Register('frozen_string', regex, select)
+    call g:Ruby.Register('frozen_string', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterMagicEncode()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: '# encoding: {value}'}
+    \}
+
+    let search = #{
         \body: '{tags.snake_name}',
         \token: '# encoding: {body}'
     \}
@@ -45,12 +57,16 @@ function! g:Ruby.tokens.RegisterMagicEncode()
         \token: 'line'
     \}
 
-    call g:Ruby.Register('magic_encode', regex, select)
+    call g:Ruby.Register('magic_encode', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterMagicWarn()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: '# warn_indent: {value}'}
+    \}
+
+    let search = #{
         \body: '{tags.snake_name}',
         \token: '# warn_indent: {body}'
     \}
@@ -60,12 +76,16 @@ function! g:Ruby.tokens.RegisterMagicWarn()
         \token: 'line'
     \}
 
-    call g:Ruby.Register('magic_warn', regex, select)
+    call g:Ruby.Register('magic_warn', input, search, select)
 endfunction
 
 "
 function! g:Ruby.tokens.RegisterMagicShare()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: '# shareable_constant_value: {value}'}
+    \}
+
+    let search = #{
         \body: '{tags.snake_name}',
         \token: '# shareable_constant_value: {body}'
     \}
@@ -75,5 +95,5 @@ function! g:Ruby.tokens.RegisterMagicShare()
         \token: 'line'
     \}
 
-    call g:Ruby.Register('magic_share', regex, select)
+    call g:Ruby.Register('magic_share', input, search, select)
 endfunction

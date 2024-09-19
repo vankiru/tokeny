@@ -14,7 +14,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterClass()
     let input = #{
-        \base: #{type: 'line', text: 'class {name}\nend', move: 'k$'}
+        \base: #{type: 'line', text: 'class {value}\nend', move: 'k$'}
     \}
 
     let search = #{
@@ -35,7 +35,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterSuperClass()
     let input = #{
-        \base: #{type: 'space', text: '< {name}'}
+        \base: #{type: 'space', text: '< {value}'}
     \}
 
     let search = #{
@@ -92,7 +92,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterNew()
     let input = #{
-        \base: #{type: "space", text: "{name}.new"}
+        \base: #{type: "space", text: "{value}.new"}
     \}
 
     let search = #{

@@ -28,10 +28,10 @@ endfunction
 " '\%(*\|**\|&\|\.\.\.\)'
 function! g:Ruby.tokens.RegisterArt()
     let input = #{
-        \list: #{type: 'space', text: '*{name}'},
-        \hash: #{type: 'space', text: '**{name}'},
-        \block: #{type: 'space', text: '&{name}'},
-        \default: #{type: 'space', text: '{name} = '}
+        \list: #{type: 'space', text: '*{value}'},
+        \hash: #{type: 'space', text: '**{value}'},
+        \block: #{type: 'space', text: '&{value}'},
+        \default: #{type: 'space', text: '{value} = '}
     \}
 
     let search = #{
