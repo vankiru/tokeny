@@ -19,7 +19,7 @@ function! s:Ruby.LoadTokens()
     runtime lang/ruby/tokens/classes.vim
     runtime lang/ruby/tokens/comments.vim
     runtime lang/ruby/tokens/controls.vim
-    "runtime lang/ruby/tokens/data_types.vim
+    runtime lang/ruby/tokens/data_types.vim
     runtime lang/ruby/tokens/exceptions.vim
     runtime lang/ruby/tokens/methods.vim
     runtime lang/ruby/tokens/modules.vim
@@ -35,7 +35,7 @@ function! s:Ruby.RegisterTokens()
     call s:Ruby.tokens.RegisterClasses()
     call s:Ruby.tokens.RegisterComments()
     call s:Ruby.tokens.RegisterControls()
-    "call s:Ruby.tokens.RegisterDataTypes()
+    call s:Ruby.tokens.RegisterDataTypes()
     "call s:Ruby.tokens.RegisterExceptions()
     "call s:Ruby.tokens.RegisterMethods()
     "call s:Ruby.tokens.RegisterModules()

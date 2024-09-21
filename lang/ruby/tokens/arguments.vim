@@ -37,7 +37,7 @@ function! g:Ruby.tokens.RegisterArt()
     let search = #{
         \name: '{tags.snake_name}',
         \body: '{base.exp}',
-        \token: g:ArtRegex()
+        \token: s:ArtRegex()
     \}
 
     let select = #{
@@ -49,7 +49,7 @@ function! g:Ruby.tokens.RegisterArt()
     call g:Ruby.Register('art', input, search, select)
 endfunction
 
-function! g:ArtRegex()
+function! s:ArtRegex()
     let prefix = '\%(\*\|\*\*\|&\)\='
     let name = '{name}'
     let default = '\s*=\s*{body}'

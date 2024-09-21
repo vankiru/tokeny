@@ -17,8 +17,7 @@ function! s:atoms.RegisterBase()
         \arts: '\%((.\{-})\|\s\+.*\)\=',
         \barbs: '\%(|.\{-}|\)\=',
         \exp: '\(\s*\)\@<=.\{-1,}',
-        \text: '.\{-}',
-        \string: '',
+        \text: '\(.\|\n\)\{-}',
         \path: '\/\='.path.'\%(\/\'.path.'\)*\%(\.'.path.'\)\=',
         \modifier: ' \%(\s*\<\%(if\|unless\|while\|until\)\>\s*.\{-}\)\='
     \}
@@ -40,7 +39,7 @@ function! s:atoms.RegisterTags()
         \arts: '\%(({id}.\{-})\|\s\+{id}.*\)\=',
         \barbs: '\%(|{id}.\{-}|\)\=',
         \exp: '\(\s*\)\@<={id}.\{-}',
-        \text: '{id}.\{-}',
+        \text: '{id}\%(.\|\n\)\{-}',
         \string: '',
         \path: '\/\=\<{id}\w\+\>\%(\/'.path.'\)*\%(\.'.path.'\)\=',
         \modifier: '\%(\s*\<\%(if\|unless\|while\|until\)\>\s*{id}.\{-1,}\)\='
