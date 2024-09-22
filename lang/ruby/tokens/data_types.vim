@@ -15,7 +15,6 @@ function! g:Ruby.tokens.RegisterDataTypes()
     call g:Ruby.tokens.RegisterRange()
     call g:Ruby.tokens.RegisterInterpolation()
     call g:Ruby.tokens.RegisterKey()
-    call g:Ruby.tokens.RegisterItem()
 endfunction
 
 "
@@ -28,7 +27,7 @@ function! g:Ruby.tokens.RegisterBool(type)
     \}
 
     let search = #{token: '\<'.a:type.'\>[?!]\@!'}
-    let select = #{token: 'e'}
+    let select = #{token: 'snake_name'}
 
     call g:Ruby.Register(a:type, input, search, select)
 endfunction
@@ -78,8 +77,8 @@ function! g:Ruby.tokens.RegisterString()
 
     let search = #{
         \body: '{tags.text}',
-        \token: s:StringRegex()
-    }
+    \}
+        "\token: s:StringRegex()
 
     let select = #{body: '', token: ''}
 
@@ -100,9 +99,9 @@ endfunction
 function! s:PercentRegex(prefix)
     let delimiter = '[^[:alnum:][:space:]]'
 
-    let general = '%['.a:prefix.']\({delimiter}\){body}\1'
+    let general = '%['.a:prefix.']\('.delimiter.'\){body}\1'
     let paren = '%['.a:prefix.']({body})'
-    let bracket = '%['.a:prefix.']{{{body}}}'
+    let bracket = '%['.a:prefix.']{{body}}'
     let square = '%['.a:prefix.']\[{body}\]'
     let tag = '%['.a:prefix.']<{body}>'
 
@@ -112,7 +111,7 @@ endfunction
 "
 ":{id}\w*
 function! g:Ruby.tokens.RegisterSymbol()
-    let input: #{
+    let input = #{
         \base: #{type: 'space', text: ':{value}'},
         \double: #{type: 'space', text: ':"{value}"'},
         \quote: #{type: 'space', text: ":'{value}'"},
@@ -121,8 +120,8 @@ function! g:Ruby.tokens.RegisterSymbol()
 
     let search = #{
         \body: '{tags.text}',
-        \token: s:SymbolRegex()
     \}
+        "\token: s:SymbolRegex()
 
     let select = #{
         \body: '',
@@ -133,7 +132,7 @@ function! g:Ruby.tokens.RegisterSymbol()
 endfunction
 
 function! s:SymbolRegex()
-  let standard = ':{body}\<\w*\>'
+  let base = ':{body}\<\w*\>'
   let quote = ':''{body}[\\]\@<!'''
   let double = ':"{body}[\\]\@<!"'
   let percent = s:PercentRegex('s')
@@ -144,8 +143,9 @@ endfunction
 "
 " \/{id}.*\/
 function! g:Ruby.tokens.RegisterRegex()
-    let input: #{
+    let input = #{
         \base: #{type: 'space', text: '/{value}/', move: 'h'},
+        \object: #{type: 'space', text: 'Regex.new()', move: 'h'}
     \}
 
     let search = #{
@@ -172,46 +172,115 @@ function! s:RegexRegex()
 
     return '\%('.regex1.'\|'.regex2.'\|'.percent.'\)'
 endfunction
+
 "
 " \(\w\+\)\@<!\([$\|\[{id}.*\]\)
 " Array\.new(.*)
 function! g:Ruby.tokens.RegisterArray()
-      let search = #{
-          \token: ''
-      \}
+    let input = #{
+        \base: #{type: 'space', text: '[]', move: 'h'},
+        \object: #{type: 'space', text: 'Array.new()', move: 'h'}
+    \}
 
-      call g:Ruby.Register('array', input, search, select)
+    let search = #{
+        \body: '{tags.exp}',
+    \}
+        "\token: s:ArrayRegex()
+
+    let select = #{
+        \body: '',
+        \token: ''
+    \}
+
+    call g:Ruby.Register('array', input, search, select)
+endfunction
+
+function! s:ArrayRegex()
+    let prefix = '\%(\w\|[]})?!\"'']\)\@<!'
+    let array = prefix.'\[{body}'
+    let percent = s:PercentRegex('wWiI')
+    let object = 'Array.new{base.arts}'
+
+    return '\%('.array.'\|'.percent.'\)'
 endfunction
 
 "
 " \(#\|-> \|\w\+\((.*)\)\? \)\@<!\({$\|{{id}.*}\)
 " Hash\.new(.*)
 function! g:Ruby.tokens.RegisterHash()
-      let search = #{
-          \token: ''
-      \}
+    let input = #{
+        \base: #{type: 'space', text: '{}', move: 'h'},
+        \object: #{type: 'space', text: 'Hash.new()', move: 'h'}
+    \}
 
-      call g:Ruby.Register('hash', input, search, select)
+    let search = #{
+        \body: '{tags.exp}',
+        \token: s:HashRegex()
+    \}
+
+    let select = #{
+        \body: '',
+        \token: ''
+    \}
+
+    call g:Ruby.Register('hash', input, search, select)
+endfunction
+
+function! s:HashRegex()
+    let prefix = '\%(->\s*\|{base.method_name}\|)\s*\|%[qQiIwWsr]\)\@<!'
+    let hash = prefix.'{{body}}'
+    let object = 'Hash.new{base.arts}'
+
+    return '\%('.hash.'\|'.object.'\)'
 endfunction
 
 "
 " Set\.new(.*)
 function! g:Ruby.tokens.RegisterSet()
-      let search = #{
-          \token: ''
-      \}
+    let input = #{
+        \base: #{type: 'space', text: 'Set.new()', move: 'h'},
+    \}
 
-      call g:Ruby.Register('set', input, search, select)
+    let search = #{
+        \body: '{tags.exp}',
+        \token: 'Set\.new({body}'
+    \}
+
+    let select = #{
+        \body: '',
+        \token: ''
+    \}
+
+    call g:Ruby.Register('set', input, search, select)
 endfunction
 
 "
 " -> {.*}
+"  proc { }
 function! g:Ruby.tokens.RegisterLambda()
-      let search = #{
-          \token: ''
-      \}
+    let input = #{
+        \lambda: #{type: 'space', text: '-> { }', move: 'h'},
+        \proc: #{type: 'space', text: 'proc { }', move: 'h'},
+    \}
 
-      call g:Ruby.Register('lambda', input, search, select)
+    let search = #{
+        \body: '{tags.exp}',
+        \token: s:LambdaRegex()
+    \}
+
+    let select = #{
+        \body: '',
+        \token: ''
+    \}
+
+    call g:Ruby.Register('lambda', input, search, select)
+endfunction
+
+function! s:LambdaRegex()
+    let lambda = '->\s*{base.arts}\s*{{body}'
+    let proc = 'proc\s*{\s*{base.barbs}{body}'
+
+    return '\%('.lambda.'\|'.proc.'\)'
 endfunction
 
 "
@@ -220,21 +289,62 @@ endfunction
 " (\.\.{id}\d*)
 " (\.\.\.{id}\d*)
 function! g:Ruby.tokens.RegisterRange()
-      let search = #{
-          \token: ''
-      \}
+    let input = #{
+        \full_by: #{type: 'space', text: '({value}..{value})'},
+        \full_until: #{type: 'space', text: '({value}...{value})'},
+        \left_by: #{type: 'space', text: '({value}..)'},
+        \left_until: #{type: 'space', text: '({value}...)'},
+        \right_by: #{type: 'space', text: '(..{value})'},
+        \right_until: #{type: 'space', text: '(...{value})'}
+    \}
 
-      call g:Ruby.Register('', input, search, select)
+    let search = #{
+        \body: s:RangeBodyRegex(),
+        \token: s:RangeRegex()
+    \}
+
+    let select = #{
+        \body: '',
+        \token: ''
+    \}
+
+    call g:Ruby.Register('range', input, search, select)
+endfunction
+
+function! s:RangeBodyRegex()
+    let full = '({tags.number}\.\.\.\={base.number})'
+    let left = '({tags.number}\.\.\.\=)'
+    let right = '(\.\.\.\={tags.number})'
+
+    return '\%('.full.'\|'.left.'\|'.right.'\)'
+endfunction
+
+function! s:RangeRegex()
+    let range = '({body})'
+    let object = 'Range.new{base.arts}'
+
+    return '\%('.range.'\|'.object.'\)'
 endfunction
 
 "
 " #{{{id}.\{-}}}
 function! g:Ruby.tokens.RegisterInterpolation()
-      let search = #{
-          \token: ''
-      \}
+    let input = #{
+        \base: #{type: 'space', text: '#{{value}}'},
+        \empty: #{type: 'space', text: '#{}', move: 'h'}
+    \}
 
-      call g:Ruby.Register('interpolation', input, search, select)
+    let search = #{
+        \body: '{tags.exp}',
+        \token: '#{{body}'
+    \}
+
+    let select = #{
+        \body: '',
+        \token: ''
+    \}
+
+    call g:Ruby.Register('interpolation', input, search, select)
 endfunction
 
 "
@@ -242,18 +352,23 @@ endfunction
 " "{{id}}\w*": \({VALUE_REGEX}, \ze\|{VALUE_REGEX\ze[}|]\)
 " {{id}}\w* => \({VALUE_REGEX}, \ze\|{VALUE_REGEX\ze[}|]\)
 function! g:Ruby.tokens.RegisterKey()
-    let search = #{
-      \token: ''
-      \}
+    let input = #{
+        \symbol: #{type: 'space', text: '{value}:'},
+        \string: #{type: 'space', text: '"{value}":'},
+        \object: #{type: 'space', text: '{value} =>'}
+    \}
 
-      call g:Ruby.Register('key', input, search, select)
-endfunction
-
-"
-function! g:Ruby.tokens.RegisterItem()
     let search = #{
+        \name: '\%({tags.snake_name\|"{tags.exp}"\)',
+        \body: '{base.exp}',
+        \token: '{name}\s*\%(:\|=>\)\s*{body}'
+    \}
+
+    let select = #{
+        \name: '',
+        \body: '',
         \token: ''
-      \}
+    \}
 
-      call g:Ruby.Register('item', input, search, select)
+    call g:Ruby.Register('key', input, search, select)
 endfunction
