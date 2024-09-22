@@ -12,7 +12,11 @@ endfunction
 " {body}
 " end
 function! g:Ruby.tokens.RegisterDefineModule(name)
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: a:name.' {value}\nend', move: 'k$'}
+    \}
+
+    let search = #{
         \name: '{tags.class_name}',
         \body: '{base.exp}',
         \token: '\<'.a:name.'\>\s\+{name}\n{body}'
@@ -21,13 +25,17 @@ function! g:Ruby.tokens.RegisterDefineModule(name)
     let select = #{
     \}
 
-    call g:Ruby.Register(a:name, regex, select)
+    call g:Ruby.Register(a:name, input, search, select)
 endfunction
 
 "
 " <include/extend/using> {class_name}
 function! g:Ruby.tokens.RegisterImportModule(name)
-    let regex = #{
+    let input = #{
+        \base: #{type: 'line', text: a:name.' {value}'}
+    \}
+
+    let search = #{
         \name: '{tags.class_name}',
         \token: '\<'.a:name.'\>\s\+{name}'
     \}
@@ -35,5 +43,5 @@ function! g:Ruby.tokens.RegisterImportModule(name)
     let select = #{
     \}
 
-    call g:Ruby.Register(a:name, regex, select)
+    call g:Ruby.Register(a:name, input, search, select)
 endfunction

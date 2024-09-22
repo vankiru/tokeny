@@ -12,10 +12,15 @@ endfunction
 " def {mthod_name}.*{arts}
 " {body}
 function! g:Ruby.tokens.RegisterMethod()
+    let input = #{
+        \base: #{type: 'line', text: 'def {value}\nend', move: 'k$'},
+        \short: #{type: 'line', text: 'def {value} =', move: '2h'}
+    \}
+
     let multi = '\<def\>\s\+{name}{base.arts}\n{body}'
     let line = '\<def\>\s\+{name}{base.arts}\s\+=\s\+{body}'
 
-    let regex = #{
+    let search = #{
         \name: '{tags.method_name}',
         \body: '{base.exp}',
         \token: '\%('.multi.'\|'.line.'\)'
@@ -23,14 +28,19 @@ function! g:Ruby.tokens.RegisterMethod()
 
     let select = #{}
 
-    call g:Ruby.Register('method', regex, select)
+    call g:Ruby.Register('method', input, search, select)
 endfunction
 
 "
 " .{mthod_name}
 " &.{mthod_name}
 function! g:Ruby.tokens.RegisterCall()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'after', text: '.{value}'},
+        \safe: #{type: 'after', text: '&.{value}'}
+    \}
+
+    let search = #{
         \name: '{tags.method_name}',
         \token: '\&\=\.{name}{base.arts}'
     \}
@@ -38,14 +48,19 @@ function! g:Ruby.tokens.RegisterCall()
     let select = #{
     \}
 
-    call g:Ruby.Register('call', regex, select)
+    call g:Ruby.Register('call', input, search, select)
 endfunction
 
 "
 " return
 " return {exp}
 function! g:Ruby.tokens.RegisterReturn()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: 'return {value}'},
+        \empty: #{type: 'space', text: 'return'}
+    \}
+
+    let search = #{
         \body: '{tags.exp}',
         \token: '\<return\>\s*{body}'
     \}
@@ -53,14 +68,19 @@ function! g:Ruby.tokens.RegisterReturn()
     let select = #{
     \}
 
-    call g:Ruby.Register('return', regex, select)
+    call g:Ruby.Register('return', input, search, select)
 endfunction
 
 "
 " super
 " super {arts}
 function! g:Ruby.tokens.RegisterSuper()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: 'super {value}'},
+        \empty: #{type: 'space', text: 'super'}
+    \}
+
+    let search = #{
         \body: '{tags.exp}',
         \token: '\<super\>\s*{body}'
     \}
@@ -68,14 +88,19 @@ function! g:Ruby.tokens.RegisterSuper()
     let select = #{
     \}
 
-    call g:Ruby.Register('super', regex, select)
+    call g:Ruby.Register('super', input, search, select)
 endfunction
 
 "
 " yield
 " yeild self
 function! g:Ruby.tokens.RegisterYield()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: 'yield {value}'},
+        \empty: #{type: 'space', text: 'yield'}
+    \}
+
+    let search = #{
         \body: '{tags.exp}',
         \token: '\<yield\>\s*{body}'
     \}
@@ -83,5 +108,5 @@ function! g:Ruby.tokens.RegisterYield()
     let select = #{
     \}
 
-    call g:Ruby.Register('yield', regex, select)
+    call g:Ruby.Register('yield', input, search, select)
 endfunction

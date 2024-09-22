@@ -12,7 +12,11 @@ endfunction
 "
 " {snake_name}
 function! g:Ruby.tokens.RegisterVariableName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '{value}'}
+    \}
+
+    let search = #{
         \name: '{tags.snake_name}',
         \token: '\C{name}'
     \}
@@ -20,13 +24,17 @@ function! g:Ruby.tokens.RegisterVariableName()
     let select = #{
     \}
 
-    call g:Ruby.Register('variable_name', regex, select)
+    call g:Ruby.Register('variable_name', input, search, select)
 endfunction
 
 "
 " @{snake_name}
 function! g:Ruby.tokens.RegisterInstanceVariableName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '@{value}'}
+    \}
+
+    let search = #{
         \name: '{tags.snake_name}',
         \token: '\C@{name}'
     \}
@@ -34,13 +42,17 @@ function! g:Ruby.tokens.RegisterInstanceVariableName()
     let select = #{
     \}
 
-    call g:Ruby.Register('instance_variable_name', regex, select)
+    call g:Ruby.Register('instance_variable_name', input, search, select)
 endfunction
 
 "
 " @@{snake_name}
 function! g:Ruby.tokens.RegisterClassVariableName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '@@{value}'}
+    \}
+
+    let search = #{
         \name: '{tags.snake_name}', 
         \token: '\C@@{name}'
     \}
@@ -48,13 +60,17 @@ function! g:Ruby.tokens.RegisterClassVariableName()
     let select = #{
     \}
 
-    call g:Ruby.Register('class_variable_name', regex, select)
+    call g:Ruby.Register('class_variable_name', input, search, select)
 endfunction
 
 "
 " $\%({snake_name}\|\d\+\|[!@_\.&~=\/\\*$?]\)
 function! g:Ruby.tokens.RegisterGlobalName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '${value}'}
+    \}
+
+    let search = #{
         \name: '{tags.snake_name}',
         \token: '\C$\%({name}\|\d\+\|[!@_\.&~=\/\\*$?]\)'
     \}
@@ -62,13 +78,19 @@ function! g:Ruby.tokens.RegisterGlobalName()
     let select = #{
     \}
 
-    call g:Ruby.Register('global_name', regex, select)
+    call g:Ruby.Register('global_name', input, search, select)
 endfunction
 
 "
 " {snake_name}[!?]\=
 function! g:Ruby.tokens.RegisterMethodName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '{value}'},
+        \bang: #{type: 'space', text: '{value}!'},
+        \plight: #{type: 'space', text: '{value}?'}
+    \}
+
+    let search = #{
         \name: 'tags.method_name}', 
         \token: '\C{name}'
     \}
@@ -76,13 +98,17 @@ function! g:Ruby.tokens.RegisterMethodName()
     let select = #{
     \}
 
-    call g:Ruby.Register('method_name', regex, select)
+    call g:Ruby.Register('method_name', input, search, select)
 endfunction
 
 "
 " {const_name}
 function! g:Ruby.tokens.RegisterConstName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '{value}'}
+    \}
+
+    let search = #{
         \name: '{tags.const_name}', 
         \token: '\C{name}'
     \}
@@ -90,13 +116,17 @@ function! g:Ruby.tokens.RegisterConstName()
     let select = #{
     \}
 
-    call g:Ruby.Register('const_name', regex, select)
+    call g:Ruby.Register('const_name', input, search, select)
 endfunction
 
 "
 " {class_name}
 function! g:Ruby.tokens.RegisterClassName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '{value}'}
+    \}
+
+    let search = #{
         \name: '{tags.class_name}',
         \token: '\C{name}'
     \}
@@ -104,13 +134,17 @@ function! g:Ruby.tokens.RegisterClassName()
     let select = #{
     \}
 
-    call g:Ruby.Register('class_name', regex, select)
+    call g:Ruby.Register('class_name', input, search, select)
 endfunction
 
 "
 " \%({snake_name}\|{const_name}\|{class_name}\)
 function! g:Ruby.tokens.RegisterName()
-    let regex = #{
+    let input = #{
+        \base: #{type: 'space', text: '{value}'}
+    \}
+
+    let search = #{
         \name: '\%({tags.snake_name}\|{tags.const_name}\|{tags.class_name}\)',
         \token: '{name}'
     \}
@@ -118,5 +152,5 @@ function! g:Ruby.tokens.RegisterName()
     let select = #{
     \}
 
-    call g:Ruby.Register('name', regex, select)
+    call g:Ruby.Register('name', input, search, select)
 endfunction

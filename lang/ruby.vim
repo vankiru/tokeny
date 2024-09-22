@@ -37,11 +37,11 @@ function! s:Ruby.RegisterTokens()
     call s:Ruby.tokens.RegisterControls()
     call s:Ruby.tokens.RegisterDataTypes()
     call s:Ruby.tokens.RegisterExceptions()
-    "call s:Ruby.tokens.RegisterMethods()
-    "call s:Ruby.tokens.RegisterModules()
-    "call s:Ruby.tokens.RegisterNames()
+    call s:Ruby.tokens.RegisterMethods()
+    call s:Ruby.tokens.RegisterModules()
+    call s:Ruby.tokens.RegisterNames()
     call s:Ruby.tokens.RegisterOperators()
-    "call s:Ruby.tokens.RegisterStatements()
+    call s:Ruby.tokens.RegisterStatements()
 endfunction
 
 "
