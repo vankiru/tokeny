@@ -4,19 +4,21 @@
 let s:Input = {}
 let g:Input = s:Input
 
-function! s:Input.New(input)
+function! s:Input.New(variations)
     let input = copy(self)
-    let input.variations = a:input
+    let input.variations = a:variations
 
     return input
 endfunction
 
 function! s:Input.Insert(key, values)
     let variation = self.variations[a:key]
+
     let text = s:PrepareText(variation, a:values)
+    let line = getline('.')
 
     call s:InsertInput(variation, text)
-    call s:MoveCursor(variation, text)
+    call s:MoveCursor(variation, text, line)
 endfunction
 
 " =============================================
@@ -82,23 +84,33 @@ function! s:InsertText(text)
   call setline('.', text)
 endfunction
 
-function! s:CharUnder()
-    return nr2char(strgetchar(getline('.'), col('.') - 1))
-endfunction
+" =============================================
+"
+function! s:MoveCursor(variation, text, line)
+    let move = get(a:variation, 'move', 0)
+    let column = col('.')  + len(a:text[0]) - move
 
-function! s:CharAfter()
-    return nr2char(strgetchar(getline('.'), col('.')))
+    if empty(a:line)
+        let column -= 1
+    endif
+
+    if s:CharUnder() == ' ' || s:CharAfter() == ' '
+        let column += 1
+    endif
+
+    call cursor('.', column)
 endfunction
 
 " =============================================
 "
-function! s:MoveCursor(variation, text)
-    let move = get(a:variation, 'move', 0)
-    let column = col('.') + len(a:text[0]) - move
+function! s:CharUnder()
+    return s:CharAt(col('.') - 1)
+endfunction
 
-    call cursor('.', column)
+function! s:CharAfter()
+    return s:CharAt(col('.'))
+endfunction
 
-    if s:CharUnder() == ' '
-        call cursor('.', column - 1)
-    endif
+function! s:CharAt(column)
+    return nr2char(strgetchar(getline('.'), a:column))
 endfunction

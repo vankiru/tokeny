@@ -26,7 +26,7 @@ function! s:Token.New(language, input, search, select)
     let token = copy(self)
 
     let token.input = g:Input.New(a:input)
-    "let token.search = g:Search.New(a:search, a:language)
+    let token.search = g:Search.New(a:search, a:language)
     "let token.select = g:Select.New(a:select)
 
     return token

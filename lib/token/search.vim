@@ -1,15 +1,29 @@
+" CLASS: Search
 "
-" Building name, test, body and token regexes
-function! g:PrepareRegex(regex, atoms)
+
+let s:Search = {}
+let g:Search = s:Search
+
+function! s:Search.New(regex, language)
+    let search = copy(self)
+
+    let search.regex = s:PrepareRegex(a:regex, a:language)
+
+    return search
+endfunction
+
+function! s:PrepareRegex(regex, language)
+    let atoms = a:language.atoms
+
     return map(
         \copy(a:regex),
-        \{key, _ -> s:BuildRegex(a:regex, key, a:atoms)}
+        \{type, _ -> s:PrepareTypeRegex(a:regex, type, atoms)}
     \)
 endfunction
 
-function! s:BuildRegex(regex, type, atoms)
-    let base = atoms.base
-    let tags = atoms.tags
+function! s:PrepareTypeRegex(regex, type, atoms)
+    let base = a:atoms.base
+    let tags = a:atoms.tags
 
     for key in ['name', 'test', 'body', 'token']
         let value = get(a:regex, key, '')
