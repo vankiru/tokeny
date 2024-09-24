@@ -12,7 +12,7 @@ endfunction
 " require {path}
 function! g:Ruby.tokens.RegisterRequire()
     let input = #{
-        \base: #{type: 'line', text: 'require "{value}"', move: 'h'}
+        \base: #{type: 'below', text: 'require "{value}"', move: 1}
     \}
 
     let search = #{
@@ -49,7 +49,7 @@ endfunction
 " defined? {name}
 function! g:Ruby.tokens.RegisterDefined()
     let input = #{
-        \base: #{type: 'space', text: 'define?({value})', move: 'h'}
+        \base: #{type: 'space', text: 'define?({value})', move: 1}
     \}
 
     let search = #{

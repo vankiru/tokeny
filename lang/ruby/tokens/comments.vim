@@ -11,7 +11,7 @@ endfunction
 function! g:Ruby.tokens.RegisterComment()
     let input = #{
         \base: #{type: 'space', text: '# {value}'},
-        \multi: #{type: 'line', text: '=begin\n{value}\n=end', move: 'k$'}
+        \multi: #{type: 'below', text: '=begin\n{value}\n=end'}
     \}
 
     let line = '\s*#[^{]\s*{body}'
@@ -33,7 +33,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterFrozenString()
     let input = #{
-        \base: #{type: 'line', text: '# frozen_strin_literal: true'},
+        \base: #{type: 'below', text: '# frozen_strin_literal: true'},
     \}
     let search = #{token: '# frozen_string_literal:'}
     let select = #{token: 'line'}
@@ -44,7 +44,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterMagicEncode()
     let input = #{
-        \base: #{type: 'line', text: '# encoding: {value}'}
+        \base: #{type: 'below', text: '# encoding: {value}'}
     \}
 
     let search = #{
@@ -63,7 +63,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterMagicWarn()
     let input = #{
-        \base: #{type: 'line', text: '# warn_indent: {value}'}
+        \base: #{type: 'below', text: '# warn_indent: {value}'}
     \}
 
     let search = #{
@@ -82,7 +82,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterMagicShare()
     let input = #{
-        \base: #{type: 'line', text: '# shareable_constant_value: {value}'}
+        \base: #{type: 'below', text: '# shareable_constant_value: {value}'}
     \}
 
     let search = #{

@@ -66,7 +66,7 @@ endfunction
 " '\%({method_name}\|->\s*\)({id}'
 function! g:Ruby.tokens.RegisterArts()
     let input = #{
-        \base: #{type: 'after', text: '()', move: 'h'},
+        \base: #{type: 'after', text: '()', move: 1},
         \left: #{type: 'after', text: '('},
         \right: #{type: 'after', text: ')'}
     \}
@@ -85,7 +85,7 @@ endfunction
 " '{\s*{barbs}'
 function! g:Ruby.tokens.RegisterBarbs()
     let input = #{
-        \base: #{type: 'space', text: '||', move: 'h'},
+        \base: #{type: 'space', text: '||', move: 1},
         \single: #{type: 'after', text: '|'}
     \}
 

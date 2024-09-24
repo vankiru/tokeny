@@ -14,7 +14,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterClass()
     let input = #{
-        \base: #{type: 'line', text: 'class {value}\nend', move: 'k$'}
+        \base: #{type: 'below', text: 'class {value}\nend'}
     \}
 
     let search = #{
@@ -54,7 +54,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterSelfClass()
     let input = #{
-        \base: #{type: 'line', text: 'class << self\nend', move: 'k$'}
+        \base: #{type: 'below', text: 'class << self\nend'}
     \}
 
     let search = #{
@@ -73,7 +73,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterInitialize()
     let input = #{
-        \base: #{type: 'line', text: 'def initialize\nend', move: 'k$'}
+        \base: #{type: 'below', text: 'def initialize\nend'}
     \}
 
     let search = #{
@@ -113,7 +113,7 @@ endfunction
 "
 function! g:Ruby.tokens.RegisterVisibility(type)
     let input = #{
-        \base: #{type: "line", text: a:type},
+        \base: #{type: 'below', text: a:type},
     \}
 
     let search = #{

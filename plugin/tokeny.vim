@@ -7,6 +7,17 @@ if exists("g:loaded_tokeny")
 endif
 let g:loaded_tokeny = 1
 
+function! TokenyInsert(...) " token, variation, values
+    let token = a:1
+    let variation = a:2
+    let values = a:000[2:]
+
+    let language = g:Ruby
+    let token = language.GetToken(token)
+
+    call token.Insert(variation, values)
+endfunction
+
 function! TokenyTo(token, id = '', key = 'token')
     let language = g:Ruby
     let token = language.GetToken(a:token)

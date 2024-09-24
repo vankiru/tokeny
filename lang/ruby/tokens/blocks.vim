@@ -1,7 +1,7 @@
 function! g:Ruby.tokens.RegisterBlock()
     let input = #{
-        \inline: #{type: 'space', text: '{ }', move: '2h'},
-        \block: #{type: 'space', text: 'do\nend', move: 'k$'}
+        \inline: #{type: 'space', text: '{ }', move: 1},
+        \block: #{type: 'space', text: 'do\nend'}
     \}
 
     let multi = '\%(\<\%(while\|until\|for\)\>\s\+.\{-}\)\@<!\s\+\<do\>\s*{base.barbs}\n{body}'

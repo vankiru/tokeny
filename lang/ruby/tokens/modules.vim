@@ -13,7 +13,7 @@ endfunction
 " end
 function! g:Ruby.tokens.RegisterDefineModule(name)
     let input = #{
-        \base: #{type: 'line', text: a:name.' {value}\nend', move: 'k$'}
+        \base: #{type: 'below', text: a:name.' {value}\nend'}
     \}
 
     let search = #{
@@ -32,7 +32,7 @@ endfunction
 " <include/extend/using> {class_name}
 function! g:Ruby.tokens.RegisterImportModule(name)
     let input = #{
-        \base: #{type: 'line', text: a:name.' {value}'}
+        \base: #{type: 'below', text: a:name.' {value}'}
     \}
 
     let search = #{

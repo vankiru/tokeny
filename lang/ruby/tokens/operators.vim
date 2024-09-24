@@ -2,7 +2,7 @@
 " \w\+\zs\[.*\]
 function! g:Ruby.tokens.RegisterIndex()
     let input = #{
-        \base: #{type: 'after', text: '[]', move: 'h'}
+        \base: #{type: 'after', text: '[]', move: 1}
     \}
     let search = #{token: '\%(\w\|[\])}!?]\)\@<=['}
     let select = #{token: 'a{'}

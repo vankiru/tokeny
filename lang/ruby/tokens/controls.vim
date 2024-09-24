@@ -22,7 +22,7 @@ endfunction
 function! g:Ruby.tokens.RegisterModifierControl(name)
     let input = #{
         \inline: #{type: 'space', text: 'if'},
-        \multi: #{type: 'space', text: 'if\nend', move: 'k$'},
+        \multi: #{type: 'space', text: 'if\nend'}
     \}
 
     let line = '\%({base.exp}\)\@<=\s*\<'.a:name.'\>\s*{test}'
@@ -46,7 +46,7 @@ endfunction
 "
 function! g:Ruby.RegisterElse()
     let input = #{
-        \base: #{type: 'line', text: 'else'}
+        \base: #{type: 'below', text: 'else'}
     \}
 
     let search = #{
@@ -65,7 +65,7 @@ endfunction
 "
 function! g:Ruby.RegisterElsif()
     let input = #{
-        \base: #{type: 'line', text: 'elsif'}
+        \base: #{type: 'below', text: 'elsif'}
     \}
 
     let search = #{
@@ -86,7 +86,7 @@ endfunction
 "
 function! g:Ruby.RegisterTriple()
     let input = #{
-        \base: #{type: 'space', text: ' ? :', move: '3h'}
+        \base: #{type: 'space', text: ' ? :', move: 3}
     \}
 
     let search = #{
@@ -105,7 +105,7 @@ endfunction
 "
 function! g:Ruby.RegisterCase()
     let input = #{
-        \base: #{type: 'space', text: 'case\nend', move: 'k$'}
+        \base: #{type: 'space', text: 'case\nend'}
     \}
 
     let search = #{
@@ -126,7 +126,7 @@ endfunction
 "
 function! g:Ruby.RegisterWhen()
     let input = #{
-        \base: #{type: 'line', text: 'when'}
+        \base: #{type: 'below', text: 'when'}
     \}
 
     let line = '\%({base.exp}\)\='
@@ -170,7 +170,7 @@ endfunction
 "
 function! g:Ruby.RegisterBegin()
     let input = #{
-        \base: #{type: 'line', text: 'begin\nend', move: 'k$'}
+        \base: #{type: 'below', text: 'begin\nend'}
     \}
 
     let search = #{
@@ -190,7 +190,7 @@ endfunction
 "
 function! g:Ruby.RegisterEnd()
     let input = #{
-        \base: #{type: 'line', text: 'end'}
+        \base: #{type: 'below', text: 'end'}
     \}
     let search = #{token: '\<end\>'}
     let select = #{token: 'e'}

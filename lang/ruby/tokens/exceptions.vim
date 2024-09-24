@@ -40,10 +40,10 @@ endfunction
 " rescue \(.* \)\?=> {id}.*
 function! g:Ruby.tokens.RegisterRescue()
     let input = #{
-        \class: #{type: 'line', text: 'rescue {value}'},
-        \variable: #{type: 'line', text: 'rescue as {value}'},
-        \class_variable: #{type: 'line', text: 'rescue {values[0]} as {values[1]}'},
-        \empty: #{type: 'line', text: 'rescue'}
+        \class: #{type: 'below', text: 'rescue {value}'},
+        \variable: #{type: 'below', text: 'rescue as {value}'},
+        \class_variable: #{type: 'below', text: 'rescue {values[0]} as {values[1]}'},
+        \empty: #{type: 'below', text: 'rescue'}
     \}
 
     let search = #{
@@ -71,7 +71,7 @@ endfunction
 " ensure
 function! g:Ruby.tokens.RegisterEnsure()
     let input = #{
-        \base: #{type: 'line', text: 'ensure'}
+        \base: #{type: 'below', text: 'ensure'}
     \}
 
     let search = #{
@@ -89,7 +89,7 @@ endfunction
 " retry
 function! g:Ruby.tokens.RegisterRetry()
     let input = #{
-        \base: #{type: 'line', text: 'retry'}
+        \base: #{type: 'below', text: 'retry'}
     \}
 
     let search = #{token: '\<retry\>'}

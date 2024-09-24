@@ -13,8 +13,8 @@ endfunction
 " {body}
 function! g:Ruby.tokens.RegisterMethod()
     let input = #{
-        \base: #{type: 'line', text: 'def {value}\nend', move: 'k$'},
-        \short: #{type: 'line', text: 'def {value} =', move: '2h'}
+        \base: #{type: 'below', text: 'def {value}\nend'},
+        \short: #{type: 'below', text: 'def {value} ='}
     \}
 
     let multi = '\<def\>\s\+{name}{base.arts}\n{body}'

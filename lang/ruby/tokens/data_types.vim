@@ -68,11 +68,11 @@ endfunction
 " {id}.*
 function! g:Ruby.tokens.RegisterString()
     let input = #{
-        \double: #{type: 'space', text: '"{value}"', move: 'h'},
-        \quote: #{type: 'space', text: "'{value}'", move: 'h'},
-        \grave: #{type: 'space', text: '`{value}`', move: 'h'},
-        \percent: #{type: 'space', text: '%q[{value}]', move: 'h'},
-        \heredoc: #{type: 'space', text: '<<~TEXT\n{value}\nTEXT', move: 'k$'}
+        \double: #{type: 'space', text: '"{value}"', move: 1},
+        \quote: #{type: 'space', text: "'{value}'", move: 1},
+        \grave: #{type: 'space', text: '`{value}`', move: 1},
+        \percent: #{type: 'space', text: '%q[{value}]', move: 1},
+        \heredoc: #{type: 'space', text: '<<~TEXT\n{value}\nTEXT'}
     \}
 
     let search = #{
@@ -144,8 +144,8 @@ endfunction
 " \/{id}.*\/
 function! g:Ruby.tokens.RegisterRegex()
     let input = #{
-        \base: #{type: 'space', text: '/{value}/', move: 'h'},
-        \object: #{type: 'space', text: 'Regex.new()', move: 'h'}
+        \base: #{type: 'space', text: '/{value}/', move: 1},
+        \object: #{type: 'space', text: 'Regex.new()', move: 1}
     \}
 
     let search = #{
@@ -178,8 +178,8 @@ endfunction
 " Array\.new(.*)
 function! g:Ruby.tokens.RegisterArray()
     let input = #{
-        \base: #{type: 'space', text: '[]', move: 'h'},
-        \object: #{type: 'space', text: 'Array.new()', move: 'h'}
+        \base: #{type: 'space', text: '[]', move: 1},
+        \object: #{type: 'space', text: 'Array.new()', move: 1}
     \}
 
     let search = #{
@@ -209,8 +209,8 @@ endfunction
 " Hash\.new(.*)
 function! g:Ruby.tokens.RegisterHash()
     let input = #{
-        \base: #{type: 'space', text: '{}', move: 'h'},
-        \object: #{type: 'space', text: 'Hash.new()', move: 'h'}
+        \base: #{type: 'space', text: '{}', move: 1},
+        \object: #{type: 'space', text: 'Hash.new()', move: 1}
     \}
 
     let search = #{
@@ -238,7 +238,7 @@ endfunction
 " Set\.new(.*)
 function! g:Ruby.tokens.RegisterSet()
     let input = #{
-        \base: #{type: 'space', text: 'Set.new()', move: 'h'},
+        \base: #{type: 'space', text: 'Set.new()', move: 1},
     \}
 
     let search = #{
@@ -259,8 +259,8 @@ endfunction
 "  proc { }
 function! g:Ruby.tokens.RegisterLambda()
     let input = #{
-        \lambda: #{type: 'space', text: '-> { }', move: 'h'},
-        \proc: #{type: 'space', text: 'proc { }', move: 'h'},
+        \lambda: #{type: 'space', text: '-> { }', move: 1},
+        \proc: #{type: 'space', text: 'proc { }', move: 1},
     \}
 
     let search = #{
@@ -331,7 +331,7 @@ endfunction
 function! g:Ruby.tokens.RegisterInterpolation()
     let input = #{
         \base: #{type: 'space', text: '#{{value}}'},
-        \empty: #{type: 'space', text: '#{}', move: 'h'}
+        \empty: #{type: 'space', text: '#{}', move: 1}
     \}
 
     let search = #{
