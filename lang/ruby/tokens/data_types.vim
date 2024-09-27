@@ -179,6 +179,8 @@ endfunction
 function! g:Ruby.tokens.RegisterArray()
     let input = #{
         \base: #{type: 'space', text: '[]', move: 1},
+        \sim: #{type: 'space', text: '%i[]', move: 1},
+        \string: #{type: 'space', text: '%w[]', move: 1},
         \object: #{type: 'space', text: 'Array.new()', move: 1}
     \}
 
@@ -290,8 +292,8 @@ endfunction
 " (\.\.\.{id}\d*)
 function! g:Ruby.tokens.RegisterRange()
     let input = #{
-        \full_by: #{type: 'space', text: '({value}..{value})'},
-        \full_until: #{type: 'space', text: '({value}...{value})'},
+        \full_by: #{type: 'space', text: '({values[0]}..{values[1]})'},
+        \full_until: #{type: 'space', text: '({values[0]}...{values[1]})'},
         \left_by: #{type: 'space', text: '({value}..)'},
         \left_until: #{type: 'space', text: '({value}...)'},
         \right_by: #{type: 'space', text: '(..{value})'},

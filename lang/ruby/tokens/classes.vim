@@ -126,5 +126,5 @@ function! g:Ruby.tokens.RegisterVisibility(type)
         \token: 'line'
     \}
 
-    call g:Ruby.Register('private', input, search, select)
+    call g:Ruby.Register(a:type, input, search, select)
 endfunction

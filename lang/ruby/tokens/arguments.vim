@@ -9,14 +9,14 @@ endfunction
 "
 " ',\s*\n\='
 function! g:Ruby.tokens.RegisterComma()
-    let inputs = #{
+    let input = #{
         \base: #{type: 'after', text: ','}
     \}
 
     let search = #{token: ',\s*\n\='}
     let select = #{token: 'vwh'}
 
-    call g:Ruby.Register('comma', inputs, search, select)
+    call g:Ruby.Register('comma', input, search, select)
 endfunction
 
 " prefix = '\%(*\|**\|&\)\='
@@ -31,6 +31,7 @@ function! g:Ruby.tokens.RegisterArt()
         \list: #{type: 'space', text: '*{value}'},
         \hash: #{type: 'space', text: '**{value}'},
         \block: #{type: 'space', text: '&{value}'},
+        \forward: #{type: 'after', text: '...'},
         \default: #{type: 'space', text: '{value} = '}
     \}
 

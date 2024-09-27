@@ -19,14 +19,14 @@ function! g:Ruby.tokens.RegisterControls()
 endfunction
 
 "
-function! g:Ruby.tokens.RegisterModifierControl(name)
+function! g:Ruby.tokens.RegisterModifierControl(type)
     let input = #{
-        \inline: #{type: 'space', text: 'if'},
-        \multi: #{type: 'space', text: 'if\nend'}
+        \inline: #{type: 'space', text: a:type},
+        \multi: #{type: 'space', text: a:type.'\nend'}
     \}
 
-    let line = '\%({base.exp}\)\@<=\s*\<'.a:name.'\>\s*{test}'
-    let block = '\%(^\s*\)\@<=\<'.a:name.'\>\s*{test}\n{body}'
+    let line = '\%({base.exp}\)\@<=\s*\<'.a:type.'\>\s*{test}'
+    let block = '\%(^\s*\)\@<=\<'.a:type.'\>\s*{test}\n{body}'
 
     let search = #{
         \test: '{tags.exp}',
@@ -40,7 +40,7 @@ function! g:Ruby.tokens.RegisterModifierControl(name)
         \token: ['', 'a.block']
     \}
 
-    call g:Ruby.Register(a:name, input, search, select)
+    call g:Ruby.Register(a:type, input, search, select)
 endfunction
 
 "
@@ -86,7 +86,7 @@ endfunction
 "
 function! g:Ruby.RegisterTriple()
     let input = #{
-        \base: #{type: 'space', text: ' ? :', move: 3}
+        \base: #{type: 'space', text: ' ? :', move: 4}
     \}
 
     let search = #{
@@ -211,5 +211,5 @@ function! g:Ruby.RegisterBlockControl(type)
 
     let select = #{}
 
-    call g:Ruby.Register('break', input, search, select)
+    call g:Ruby.Register(a:type, input, search, select)
 endfunction

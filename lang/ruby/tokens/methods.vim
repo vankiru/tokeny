@@ -37,7 +37,9 @@ endfunction
 function! g:Ruby.tokens.RegisterCall()
     let input = #{
         \base: #{type: 'after', text: '.{value}'},
-        \safe: #{type: 'after', text: '&.{value}'}
+        \safe: #{type: 'after', text: '&.{value}'},
+        \bang: #{type: 'after', text: '&.{value}!'},
+        \plight: #{type: 'after', text: '&.{value}?'}
     \}
 
     let search = #{

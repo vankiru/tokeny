@@ -86,6 +86,7 @@ endfunction
 function! g:Ruby.tokens.RegisterMethodName()
     let input = #{
         \base: #{type: 'space', text: '{value}'},
+        \self: #{type: 'space', text: 'self.{value}'},
         \bang: #{type: 'space', text: '{value}!'},
         \plight: #{type: 'space', text: '{value}?'}
     \}
@@ -123,7 +124,8 @@ endfunction
 " {class_name}
 function! g:Ruby.tokens.RegisterClassName()
     let input = #{
-        \base: #{type: 'space', text: '{value}'}
+        \base: #{type: 'space', text: '{value}'},
+        \pack: #{type: 'space', text: '::{value}'}
     \}
 
     let search = #{

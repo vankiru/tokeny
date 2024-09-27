@@ -39,11 +39,11 @@ endfunction
 function! s:InsertInput(variation, text)
     let type = a:variation.type
 
-    call s:InsertFirst(type, a:text[0])
-    call append('.', a:text[1:])
+    call s:InsertFirstLine(type, a:text[0])
+    call s:InsertOtherLines(a:text)
 endfunction
 
-function! s:InsertFirst(type, text)
+function! s:InsertFirstLine(type, text)
     if a:type == 'space'
         call s:InsertSpace(a:text)
     elseif a:type == 'after'
@@ -72,8 +72,17 @@ function! s:InsertAfter(text)
 endfunction
 
 function! s:InsertBelow(text)
-    call append('.', a:text)
-    call cursor(line('.') + 1, 1)
+    execute 'normal! o '
+
+    let spaces = repeat(' ', col('.') - 1)
+    call setline('.', spaces.a:text)
+endfunction
+
+function! s:InsertOtherLines(text)
+    let spaces = repeat(' ', col('.') - 1)
+    let lines = map(a:text[1:], {_, line -> spaces.line})
+
+    call append('.', lines)
 endfunction
 
 function! s:InsertText(text)
