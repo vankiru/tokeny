@@ -22,6 +22,8 @@ function! g:Ruby.tokens.RegisterVariableName()
     \}
 
     let select = #{
+        \name: 'snake_name',
+        \token: 'snake_name'
     \}
 
     call g:Ruby.Register('variable_name', input, search, select)
@@ -40,6 +42,8 @@ function! g:Ruby.tokens.RegisterInstanceVariableName()
     \}
 
     let select = #{
+        \name: 'snake_name',
+        \token: 'char,snake_name'
     \}
 
     call g:Ruby.Register('instance_variable_name', input, search, select)
@@ -58,6 +62,8 @@ function! g:Ruby.tokens.RegisterClassVariableName()
     \}
 
     let select = #{
+        \name: 'snake_name',
+        \token: 'char,char,snake_name'
     \}
 
     call g:Ruby.Register('class_variable_name', input, search, select)
@@ -76,6 +82,8 @@ function! g:Ruby.tokens.RegisterGlobalName()
     \}
 
     let select = #{
+        \name: 'snake_name',
+        \token: 'char,snake_name'
     \}
 
     call g:Ruby.Register('global_name', input, search, select)
@@ -97,6 +105,8 @@ function! g:Ruby.tokens.RegisterMethodName()
     \}
 
     let select = #{
+        \name: 'method_name',
+        \token: 'method_name'
     \}
 
     call g:Ruby.Register('method_name', input, search, select)
@@ -115,6 +125,8 @@ function! g:Ruby.tokens.RegisterConstName()
     \}
 
     let select = #{
+        \name: 'const_name',
+        \token: 'const_name'
     \}
 
     call g:Ruby.Register('const_name', input, search, select)
@@ -134,6 +146,8 @@ function! g:Ruby.tokens.RegisterClassName()
     \}
 
     let select = #{
+        \name: 'class_name',
+        \token: 'class_name'
     \}
 
     call g:Ruby.Register('class_name', input, search, select)
@@ -152,6 +166,8 @@ function! g:Ruby.tokens.RegisterName()
     \}
 
     let select = #{
+        \name: 'name',
+        \token: 'name'
     \}
 
     call g:Ruby.Register('name', input, search, select)

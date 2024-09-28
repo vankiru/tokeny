@@ -21,6 +21,8 @@ function! g:Ruby.tokens.RegisterRaise()
     \}
 
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('raise', input, search, select)
@@ -52,6 +54,8 @@ function! g:Ruby.tokens.RegisterRescue()
     \}
 
     let select = #{
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('rescue', input, search, select)
@@ -80,6 +84,8 @@ function! g:Ruby.tokens.RegisterEnsure()
     \}
 
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('ensure', input, search, select)
@@ -93,7 +99,10 @@ function! g:Ruby.tokens.RegisterRetry()
     \}
 
     let search = #{token: '\<retry\>'}
-    let select = #{}
+    let select = #{
+        \body: 'line',
+        \token: 'line'
+    \}
 
     call g:Ruby.Register('retry', input, search, select)
 endfunction

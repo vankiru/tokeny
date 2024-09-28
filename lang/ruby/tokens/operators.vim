@@ -5,7 +5,7 @@ function! g:Ruby.tokens.RegisterIndex()
         \base: #{type: 'after', text: '[]', move: 1}
     \}
     let search = #{token: '\%(\w\|[\])}!?]\)\@<=['}
-    let select = #{token: 'a{'}
+    let select = #{token: 'a.array'}
 
     call g:Ruby.Register('index', input, search, select)
 endfunction
@@ -16,7 +16,7 @@ function! g:Ruby.tokens.RegisterOperator(name, text, regex)
         \base: #{type: 'space', text: a:text}
     \}
     let search = #{token: a:regex}
-    let select = #{token: ''}
+    let select = #{token: 'operator'}
 
     call g:Ruby.Register(a:name, input, search, select)
 endfunction

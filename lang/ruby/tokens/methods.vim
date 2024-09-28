@@ -26,7 +26,11 @@ function! g:Ruby.tokens.RegisterMethod()
         \token: '\%('.multi.'\|'.line.'\)'
     \}
 
-    let select = #{}
+    let select = #{
+        \name: 'method_name',
+        \body: 'i.body',
+        \token: 'a.body'
+    \}
 
     call g:Ruby.Register('method', input, search, select)
 endfunction
@@ -48,6 +52,8 @@ function! g:Ruby.tokens.RegisterCall()
     \}
 
     let select = #{
+        \name: 'snake_name',
+        \token: 'call'
     \}
 
     call g:Ruby.Register('call', input, search, select)
@@ -68,6 +74,8 @@ function! g:Ruby.tokens.RegisterReturn()
     \}
 
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('return', input, search, select)
@@ -88,6 +96,8 @@ function! g:Ruby.tokens.RegisterSuper()
     \}
 
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('super', input, search, select)
@@ -108,6 +118,8 @@ function! g:Ruby.tokens.RegisterYield()
     \}
 
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('yield', input, search, select)

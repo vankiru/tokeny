@@ -14,7 +14,7 @@ function! g:Ruby.tokens.RegisterComma()
     \}
 
     let search = #{token: ',\s*\n\='}
-    let select = #{token: 'vwh'}
+    let select = #{token: 'char'}
 
     call g:Ruby.Register('comma', input, search, select)
 endfunction
@@ -77,7 +77,7 @@ function! g:Ruby.tokens.RegisterArts()
         \token: '\%({base.method_name}\|->\s*\)\@<=({body}'
     \}
 
-    let select = #{body: 'vi(', token: 'va('}
+    let select = #{body: 'i.arts', token: 'a.arts'}
 
     call g:Ruby.Register('arts', input, search, select)
 endfunction
@@ -95,7 +95,7 @@ function! g:Ruby.tokens.RegisterBarbs()
         \token: '\%({\s*\)\@<=|{body}|'
     \}
 
-    let select = #{body: 'lvf|h', token: 'vf|'}
+    let select = #{body: 'i.barbs', token: 'a.barbs'}
 
     call g:Ruby.Register('barbs', input, search, select)
 endfunction

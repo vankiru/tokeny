@@ -11,14 +11,14 @@ function! tokeny#prepare()
 endfunction
 
 function! tokeny#loadLib()
-    runtime lib/token/string.vim
+    runtime lib/string.vim
+
     runtime lib/token/input.vim
     runtime lib/token/search.vim
     runtime lib/token/select.vim
 
     runtime lib/token.vim
     runtime lib/language.vim
-    runtime lib/select.vim
 endfunction
 
 function! tokeny#initRuby()

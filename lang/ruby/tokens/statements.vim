@@ -21,6 +21,8 @@ function! g:Ruby.tokens.RegisterRequire()
     \}
 
     let select = #{
+        \body: 'a.string',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('require', input, search, select)
@@ -39,6 +41,8 @@ function! g:Ruby.tokens.RegisterUndef()
     \}
 
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('undef', input, search, select)
@@ -58,6 +62,8 @@ function! g:Ruby.tokens.RegisterDefined()
     \}
     
     let select = #{
+        \body: 'a.arts',
+        \token: ''
     \}
 
     call g:Ruby.Register('defined', input, search, select)
@@ -78,6 +84,8 @@ function! g:Ruby.tokens.RegisterAttr(name)
     \}
     
     let select = #{
+        \body: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register('attr_'.a:name, input, search, select)

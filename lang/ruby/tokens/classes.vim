@@ -25,8 +25,8 @@ function! g:Ruby.tokens.RegisterClass()
 
      let select = #{
          \name: 'class_name',
-         \body: 'i.block',
-         \token: 'a.block'
+         \body: 'i.body',
+         \token: 'a.body'
      \}
 
     call g:Ruby.Register('class', input, search, select)
@@ -63,8 +63,8 @@ function! g:Ruby.tokens.RegisterSelfClass()
     \}
 
     let select = #{
-        \body: 'i.block',
-        \token: 'a.block'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('self_class', input, search, select)
@@ -82,8 +82,8 @@ function! g:Ruby.tokens.RegisterInitialize()
     \}
 
     let select = #{
-        \body: 'i.block',
-        \token: 'a.block'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('initialize', input, search, select)

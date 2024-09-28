@@ -23,6 +23,9 @@ function! g:Ruby.tokens.RegisterDefineModule(name)
     \}
 
     let select = #{
+        \name: 'class_name'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register(a:name, input, search, select)
@@ -41,6 +44,8 @@ function! g:Ruby.tokens.RegisterImportModule(name)
     \}
 
     let select = #{
+        \name: 'line',
+        \token: 'line'
     \}
 
     call g:Ruby.Register(a:name, input, search, select)

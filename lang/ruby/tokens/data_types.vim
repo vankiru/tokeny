@@ -44,7 +44,7 @@ function! g:Ruby.tokens.RegisterNumber()
     \}
 
     let search = #{token: s:NumberRegex()}
-    let select = #{token: ''}
+    let select = #{token: 'number'}
 
     call g:Ruby.Register('number', input, search, select)
 endfunction
@@ -80,7 +80,7 @@ function! g:Ruby.tokens.RegisterString()
     \}
         "\token: s:StringRegex()
 
-    let select = #{body: '', token: ''}
+    let select = #{body: 'i.string', token: 'a.string'}
 
     call g:Ruby.Register('string', input, search, select)
 endfunction
@@ -124,8 +124,8 @@ function! g:Ruby.tokens.RegisterSymbol()
         "\token: s:SymbolRegex()
 
     let select = #{
-        \body: '',
-        \token: ''
+        \body: 'snake_name',
+        \token: 'snake_name'
     \}
 
     call g:Ruby.Register('symbol', input, search, select)
@@ -154,8 +154,8 @@ function! g:Ruby.tokens.RegisterRegex()
     \}
 
     let select = #{
-        \body: '',
-        \token: ''
+        \body: 'i.regex',
+        \token: 'a.regex'
     \}
 
     call g:Ruby.Register('regex', input, search, select)
@@ -190,8 +190,8 @@ function! g:Ruby.tokens.RegisterArray()
         "\token: s:ArrayRegex()
 
     let select = #{
-        \body: '',
-        \token: ''
+        \body: 'i.array',
+        \token: 'a.array'
     \}
 
     call g:Ruby.Register('array', input, search, select)
@@ -221,8 +221,8 @@ function! g:Ruby.tokens.RegisterHash()
     \}
 
     let select = #{
-        \body: '',
-        \token: ''
+        \body: 'i.hash',
+        \token: 'a.hash'
     \}
 
     call g:Ruby.Register('hash', input, search, select)
@@ -271,7 +271,7 @@ function! g:Ruby.tokens.RegisterLambda()
     \}
 
     let select = #{
-        \body: '',
+        \body: 'i.hash',
         \token: ''
     \}
 
@@ -306,8 +306,8 @@ function! g:Ruby.tokens.RegisterRange()
     \}
 
     let select = #{
-        \body: '',
-        \token: ''
+        \body: 'i.arts',
+        \token: 'a.arts'
     \}
 
     call g:Ruby.Register('range', input, search, select)
@@ -342,7 +342,7 @@ function! g:Ruby.tokens.RegisterInterpolation()
     \}
 
     let select = #{
-        \body: '',
+        \body: 'i.hash',
         \token: ''
     \}
 
@@ -367,7 +367,7 @@ function! g:Ruby.tokens.RegisterKey()
     \}
 
     let select = #{
-        \name: '',
+        \name: 'snake_name',
         \body: '',
         \token: ''
     \}

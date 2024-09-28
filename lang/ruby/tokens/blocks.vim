@@ -12,10 +12,7 @@ function! g:Ruby.tokens.RegisterBlock()
         \token: '\%('.multi.'\|'.inline.'\)'
     \}
 
-    let select = #{
-        \body: ['vir', 'vi{'],
-        \token: ['var', 'va{oh']
-    \}
+    let select = #{body: 'i.block', token: 'a.block'}
 
     call g:Ruby.Register('block', input, search, select)
 endfunction

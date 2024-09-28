@@ -36,8 +36,8 @@ function! g:Ruby.tokens.RegisterModifierControl(type)
 
     let select = #{
         \test: 'line',
-        \body: ['', 'i.block'],
-        \token: ['', 'a.block']
+        \body: 'i.modifier',
+        \token: 'a.modifier'
     \}
 
     call g:Ruby.Register(a:type, input, search, select)
@@ -55,8 +55,8 @@ function! g:Ruby.RegisterElse()
     \}
 
     let select = #{
-        \body: 'i.block',
-        \token: 'a.block'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('else', input, search, select)
@@ -76,8 +76,8 @@ function! g:Ruby.RegisterElsif()
 
     let select = #{
         \test: 'line',
-        \body: 'i.block',
-        \token: 'a.block'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('elsif', input, search, select)
@@ -116,8 +116,8 @@ function! g:Ruby.RegisterCase()
 
     let select = #{
         \test: 'line',
-        \body: 'i.block',
-        \token: 'a.block'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('case', input, search, select)
@@ -141,8 +141,8 @@ function! g:Ruby.RegisterWhen()
 
     let select = #{
         \test: 'line',
-        \body: ['', ''],
-        \token: ['', '']
+        \body: 'i.modifier',
+        \token: 'a.modifier'
     \}
 
     call g:Ruby.Register('when', input, search, select)
@@ -160,8 +160,8 @@ function! g:Ruby.RegisterThen()
     \}
 
     let select = #{
-        \body: '',
-        \token: ''
+        \body: 'i.modifier',
+        \token: 'a.modifier'
     \}
 
     call g:Ruby.Register('then', input, search, select)
@@ -180,8 +180,8 @@ function! g:Ruby.RegisterBegin()
 
     let select = #{
         \test: 'line',
-        \body: 'i.block',
-        \token: 'a.block'
+        \body: 'i.body',
+        \token: 'a.body'
     \}
 
     call g:Ruby.Register('begin', input, search, select)
@@ -193,7 +193,7 @@ function! g:Ruby.RegisterEnd()
         \base: #{type: 'below', text: 'end'}
     \}
     let search = #{token: '\<end\>'}
-    let select = #{token: 'e'}
+    let select = #{token: 'snake_name'}
 
     call g:Ruby.Register('end', input, search, select)
 endfunction
@@ -209,7 +209,10 @@ function! g:Ruby.RegisterBlockControl(type)
         \token: '\<'.a:type.'\>\s*{body}{base.modifier}'
     \}
 
-    let select = #{}
+    let select = #{
+        \body: 'line',
+        \token: 'line'
+    }
 
     call g:Ruby.Register(a:type, input, search, select)
 endfunction
