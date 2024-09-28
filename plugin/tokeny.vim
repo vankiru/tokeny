@@ -18,18 +18,18 @@ function! TokenyInsert(...) " token, variation, values
     call token.Insert(variation, values)
 endfunction
 
-function! TokenyTo(token, id = '', key = 'token')
+function! TokenyTo(token, id = '')
     let language = g:Ruby
     let token = language.GetToken(a:token)
 
-    call token.GoTo(a:id, a:key)
+    call token.GoTo(a:id)
 endfunction
 
-function! TokenyBack(token, id = '', key = 'token')
+function! TokenyBack(token, id = '')
     let language = g:Ruby
     let token = language.GetToken(a:token)
 
-    call token.GoBack(a:id, a:key)
+    call token.GoBack(a:id)
 endfunction
 
 function! TokenySelect(token, id = '', key = 'token')

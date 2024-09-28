@@ -12,6 +12,11 @@ function! s:Search.New(regex, language)
     return search
 endfunction
 
+function! s:Search.Regex(id, key)
+    let id = a:id
+    execute('return '.self.regex[a:key])
+endfunction
+
 function! s:PrepareRegex(regex, language)
     let atoms = a:language.atoms
 

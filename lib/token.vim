@@ -34,16 +34,15 @@ endfunction
 
 "
 function! s:Token.Regex(id, key)
-    let id = a:id
-    execute('return '.self.search[a:key])
+    return self.search.Regex(a:id, a:key)
 endfunction
 
-function! s:Token.GoTo(id = '', key = 'token')
-    call search(self.Regex(a:id, a:key))
+function! s:Token.GoTo(id = '')
+    call search(self.Regex(a:id, 'token'))
 endfunction
 
-function! s:Token.GoBack(id = '', key = 'token')
-    call search(self.Regex(a:id, a:key), 'b')
+function! s:Token.GoBack(id = '')
+    call search(self.Regex(a:id, 'token'), 'b')
 endfunction
 
 function! s:Token.Insert(variation, values)

@@ -229,7 +229,7 @@ function! g:Ruby.tokens.RegisterHash()
 endfunction
 
 function! s:HashRegex()
-    let prefix = '\%(->\s*\|{base.method_name}\|)\s*\|%[qQiIwWsr]\)\@<!'
+    let prefix = '\%(->\s*\|{base.method_name}\|)\s*\|%[qQiIwWsr]\|#\)\@<!'
     let hash = prefix.'{{body}}'
     let object = 'Hash.new{base.arts}'
 

@@ -50,7 +50,7 @@ function! g:Ruby.RegisterElse()
     \}
 
     let search = #{
-        \body: '{tags.exp}',
+        \body: '{base.exp}',
         \token: '\<else\>\n{body}'
     \}
 

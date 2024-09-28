@@ -73,7 +73,7 @@ function! g:Ruby.tokens.RegisterAttr(name)
     \}
 
     let search = #{
-        \body: '{tags.exp}',
+        \body: '{base.exp}',
         \token: '\<attr_'.a:name.'\>\s\+{body}'
     \}
     
