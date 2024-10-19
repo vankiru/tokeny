@@ -56,15 +56,23 @@ endfunction
 function! s:InsertSpace(text)
     let text = a:text
 
-    if '({[: ' !~ s:CharUnder()
+    if '({[| ' !~ s:CharUnder() && !s:IsLineStart()
         let text = ' '.text
     endif
 
-    if ')}]:, ' !~ s:CharAfter()
+    if ')}]|:, ' !~ s:CharAfter() && !s:IsLineEnd()
         let text = text.' '
     endif
 
     call s:InsertText(text)
+endfunction
+
+function! s:IsLineStart()
+    return col('.') == 1
+endfunction
+
+function! s:IsLineEnd()
+    return col('.') == col('$') - 1
 endfunction
 
 function! s:InsertAfter(text)
@@ -79,7 +87,8 @@ function! s:InsertBelow(text)
 endfunction
 
 function! s:InsertOtherLines(text)
-    let spaces = repeat(' ', col('.') - 1)
+    let spaces = matchstr(getline('.'), ' *.')
+    let spaces = repeat(' ', len(spaces) - 1)
     let lines = map(a:text[1:], {_, line -> spaces.line})
 
     call append('.', lines)

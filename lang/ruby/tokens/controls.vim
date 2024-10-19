@@ -212,7 +212,7 @@ function! g:Ruby.RegisterBlockControl(type)
     let select = #{
         \body: 'line',
         \token: 'line'
-    }
+    \}
 
     call g:Ruby.Register(a:type, input, search, select)
 endfunction

@@ -1,3 +1,18 @@
+" CLASS: Select
+"
+
+let s:Select = {}
+let g:Select = s:Select
+
+function! s:Select.New(select)
+    let select = copy(self)
+    let select.select = a:select
+
+    return select
+endfunction
+
+function! s:Select(key)
+endfunction
 
 let g:Language.select = #{
     \char: 'v',

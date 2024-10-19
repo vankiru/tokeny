@@ -23,7 +23,7 @@ function! g:Ruby.tokens.RegisterDefineModule(name)
     \}
 
     let select = #{
-        \name: 'class_name'
+        \name: 'class_name',
         \body: 'i.body',
         \token: 'a.body'
     \}

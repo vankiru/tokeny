@@ -15,7 +15,7 @@ function! tokeny#loadLib()
 
     runtime lib/token/input.vim
     runtime lib/token/search.vim
-    runtime lib/token/select.vim
+    "runtime lib/token/select.vim
 
     runtime lib/token.vim
     runtime lib/language.vim

@@ -72,7 +72,8 @@ function! g:Ruby.tokens.RegisterString()
         \quote: #{type: 'space', text: "'{value}'", move: 1},
         \grave: #{type: 'space', text: '`{value}`', move: 1},
         \percent: #{type: 'space', text: '%q[{value}]', move: 1},
-        \heredoc: #{type: 'space', text: '<<~TEXT\n{value}\nTEXT'}
+        \heredoc: #{type: 'space', text: '<<~TEXT\n{value}\nTEXT'},
+        \text: #{type: 'after', text: '{value}'}
     \}
 
     let search = #{
@@ -332,8 +333,8 @@ endfunction
 " #{{{id}.\{-}}}
 function! g:Ruby.tokens.RegisterInterpolation()
     let input = #{
-        \base: #{type: 'space', text: '#{{value}}'},
-        \empty: #{type: 'space', text: '#{}', move: 1}
+        \base: #{type: 'after', text: '#{{value}}'},
+        \empty: #{type: 'after', text: '#{}', move: 1}
     \}
 
     let search = #{
@@ -357,7 +358,8 @@ function! g:Ruby.tokens.RegisterKey()
     let input = #{
         \symbol: #{type: 'space', text: '{value}:'},
         \string: #{type: 'space', text: '"{value}":'},
-        \object: #{type: 'space', text: '{value} =>'}
+        \object: #{type: 'space', text: '{value} =>'},
+        \emtpy: #{type: 'after', text: ':'}
     \}
 
     let search = #{
